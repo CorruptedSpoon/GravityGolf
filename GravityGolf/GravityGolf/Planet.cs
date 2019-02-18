@@ -25,14 +25,13 @@ namespace GravityGolf
 
 
         /// <summary>
-        /// Returns the gravitaional force caused by this Planet at the point represented by the position vector p
+        /// Returns the gravitational force caused by this Planet at the point represented by the position vector p
         /// </summary>
         /// <param name="p">The point at which to calculate the gravitaional force</param>
         /// <returns>the gravitaional force caused by this Planet at the point represented by the position vector p</returns>
         Vector2 ForceAt(Vector2 p)
         {
-            //TODO
-            return default(Vector2);
+            return -(mass/(p-center).LengthSquared)*UnitNormalAt(p);
         }
 
         /// <summary>
