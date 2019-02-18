@@ -18,7 +18,7 @@ namespace GravityGolf
         
         public Universe()
         {
-            ball = new Ball(new Vector2(0, 0), 10, 1);
+            
         }
         
         //Gets gravitational force at position pos
@@ -48,9 +48,10 @@ namespace GravityGolf
 
         public void Draw(SpriteBatch sb)
         {
+            ball.Draw(sb);
             foreach (Planet planet in planets)
             {
-                sb.Draw(planet.Texture, new Vector2(planet.X, planet.Y), Color.White);
+                planet.Draw(sb);
             }
         }
 

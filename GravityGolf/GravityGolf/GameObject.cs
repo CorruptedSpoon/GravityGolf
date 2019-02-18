@@ -49,17 +49,6 @@ namespace GravityGolf
         }
 
         /// <summary>
-        /// Get this GameObject's Texture2D
-        /// </summary>
-        public Texture2D Texture 
-        {
-            get 
-            {
-                return tex;
-            }
-        }
-
-        /// <summary>
         /// Creates a new circlular GameObject centered at center with radius radius and mass mass.
         /// Its texture will be tex and it will have a color mask of color
         /// </summary>
@@ -80,7 +69,7 @@ namespace GravityGolf
         /// <summary>
         /// Draws this GameObject on the screen
         /// </summary>
-        /// <param name="sb">the SpriteBAtch with which to draw this</param>
+        /// <param name="sb">the SpriteBatch with which to draw this</param>
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(tex, new Rectangle((int)(X+0.5)-radius, (int)(Y+0.5)-radius, 2*radius, 2*radius), (Color)color);

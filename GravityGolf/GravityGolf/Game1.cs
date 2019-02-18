@@ -32,31 +32,35 @@ namespace GravityGolf
         protected override void Initialize()
         {
             universe = new Universe();
+            level = 0;
 
             BinaryWriter output = null;
             try
             {
-                Stream outStream = File.OpenRead("1.level");
+                Stream outStream = File.OpenWrite("1.level");
                 output = new BinaryWriter(outStream);
 
-                //--Ball--//
-                output.Write(100f); //x of planet
-                output.Write(100f); //y of planet
-                output.Write(50); //radius
-                output.Write("red.png");//texture
+                ////--Ball--//
+                //output.Write(20f); //x of ball
+                //output.Write(20f); //y of ball
+                //output.Write(5); //radius
+                //output.Write("red");//texture
 
-                //--Planet--//
-                output.Write(100f); //x of planet
-                output.Write(100f); //y of planet
-                output.Write(50); //radius
-                output.Write(150); //mass
-                output.Write("red.png");//texture
+                //output.Write((byte)1); //number of planets
+
+                ////--Planet--//
+                //output.Write(100f); //x of planet
+                //output.Write(100f); //y of planet
+                //output.Write(50); //radius
+                //output.Write(150); //mass
+                //output.Write("red");//texture
             }
             finally
             {
                 if (output != null)
                     output.Close();
             }
+            NextLevel();
 
             base.Initialize();
         }
@@ -105,7 +109,9 @@ namespace GravityGolf
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
             universe.Draw(spriteBatch);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
@@ -121,7 +127,14 @@ namespace GravityGolf
                 Stream inStream = File.OpenRead(level+".level");
                 input = new BinaryReader(inStream);
 
-                while (inStream.Position != inStream.Length) 
+                universe.SetBall(new Ball(
+                    new Vector2(input.ReadSingle(), input.ReadSingle()),
+                        input.ReadInt32(),
+                        1,
+                        Content.Load<Texture2D>(input.ReadString())));
+                byte i = 0;
+                byte total = input.ReadByte();//number of planets
+                while (i++<total)//inStream.Position < inStream.Length) 
                 {
                     universe.Add(new Planet(
                         new Vector2(input.ReadSingle(), input.ReadSingle()), 
