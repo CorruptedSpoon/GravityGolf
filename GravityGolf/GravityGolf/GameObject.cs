@@ -48,6 +48,16 @@ namespace GravityGolf
             }
         }
 
+        /// <summary>
+        /// Get this GameObject's Texture2D
+        /// </summary>
+        public Texture2D Texture 
+        {
+            get 
+            {
+                return tex;
+            }
+        }
 
         /// <summary>
         /// Creates a new circlular GameObject centered at center with radius radius and mass mass.
