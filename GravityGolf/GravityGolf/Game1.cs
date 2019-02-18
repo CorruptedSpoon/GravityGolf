@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO;
 
 namespace GravityGolf
 {
@@ -11,6 +12,10 @@ namespace GravityGolf
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Universe universe;
+        int level;
+        int numStrokes;
 
         public Game1()
         {
@@ -26,7 +31,9 @@ namespace GravityGolf
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            universe = new Universe();
+
+
 
             base.Initialize();
         }
@@ -62,7 +69,7 @@ namespace GravityGolf
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            universe.Update();
 
             base.Update(gameTime);
         }
@@ -75,9 +82,35 @@ namespace GravityGolf
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            universe.Draw();
 
             base.Draw(gameTime);
+        }
+
+        protected void NextLevel() 
+        {
+            numStrokes = 0;
+            level++;
+            universe.Clear();
+
+            BinaryReader input = null;
+            try {
+                Stream inStream = File.OpenRead(level+".level");
+                input = new BinaryReader(inStream);
+
+                while (inStream.Position != inStream.Length) 
+                {
+                    universe.Add(new Planet(
+                        new Vector2(input.ReadSingle, input.ReadSingle()), 
+                        input.ReadUInt32(), 
+                        input.ReadUInt32(),
+                        LoadContent<Texture2D>(input.ReadString()) ));
+                }
+            } 
+            finally {
+                if (input!=null)
+                    input.Close();
+            }
         }
     }
 }
