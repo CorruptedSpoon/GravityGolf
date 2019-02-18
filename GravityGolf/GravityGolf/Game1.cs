@@ -40,20 +40,20 @@ namespace GravityGolf
                 Stream outStream = File.OpenWrite("1.level");
                 output = new BinaryWriter(outStream);
 
-                ////--Ball--//
-                //output.Write(20f); //x of ball
-                //output.Write(20f); //y of ball
-                //output.Write(5); //radius
-                //output.Write("red");//texture
+                //--Ball--//
+                output.Write(20f); //x of ball
+                output.Write(20f); //y of ball
+                output.Write(5); //radius
+                output.Write("red");//texture
 
-                //output.Write((byte)1); //number of planets
+                output.Write((byte)1); //number of planets
 
-                ////--Planet--//
-                //output.Write(100f); //x of planet
-                //output.Write(100f); //y of planet
-                //output.Write(50); //radius
-                //output.Write(150); //mass
-                //output.Write("red");//texture
+                //--Planet--//
+                output.Write(100f); //x of planet
+                output.Write(100f); //y of planet
+                output.Write(50); //radius
+                output.Write(150); //mass
+                output.Write("red");//texture
             }
             finally
             {
