@@ -23,7 +23,6 @@ namespace GravityGolf
         public Planet(Vector2 center, int radius, float mass, Texture2D tex = null, Color? color = null)
             : base(center, radius, mass, tex, color) { }
 
-
         /// <summary>
         /// Returns the gravitational force caused by this Planet at the point represented by the position vector p
         /// </summary>
@@ -31,7 +30,7 @@ namespace GravityGolf
         /// <returns>the gravitaional force caused by this Planet at the point represented by the position vector p</returns>
         Vector2 ForceAt(Vector2 p)
         {
-            return -(mass/(p-center).LengthSquared)*UnitNormalAt(p);
+            return -(mass/(p-center).LengthSquared())*UnitNormalAt(p);
         }
 
         /// <summary>

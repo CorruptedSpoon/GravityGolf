@@ -32,9 +32,7 @@ namespace GravityGolf
         protected override void Initialize()
         {
             universe = new Universe();
-
-
-
+             
             base.Initialize();
         }
 
@@ -82,7 +80,7 @@ namespace GravityGolf
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            universe.Draw();
+            universe.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
@@ -101,10 +99,10 @@ namespace GravityGolf
                 while (inStream.Position != inStream.Length) 
                 {
                     universe.Add(new Planet(
-                        new Vector2(input.ReadSingle, input.ReadSingle()), 
-                        input.ReadUInt32(), 
+                        new Vector2(input.ReadSingle(), input.ReadSingle()), 
+                        input.ReadInt32(), 
                         input.ReadUInt32(),
-                        LoadContent<Texture2D>(input.ReadString()) ));
+                        Content.Load<Texture2D>(input.ReadString()) ));
                 }
             } 
             finally {

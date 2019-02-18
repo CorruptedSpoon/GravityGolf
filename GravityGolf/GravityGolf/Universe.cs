@@ -24,6 +24,8 @@ namespace GravityGolf
         //Gets gravitational force at position pos
         public Vector2 ForceAt(Point pos)
         {
+            //this method had a linear gravity that gets stronger the farther away you are
+            //the line inside the loop should br force+=planet.ForceAt(pos);
             Vector2 force = new Vector2();
             foreach(Planet planet in planets)
             {
@@ -33,12 +35,12 @@ namespace GravityGolf
             return force;
         }
 
-        void Add(Planet p)
+        public void Add(Planet p)
         {
             planets.Add(p);
         }
 
-        void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb)
         {
             foreach (Planet planet in planets)
             {//Where are we going to put the texture file? With the object or just load it onto here?
@@ -46,12 +48,12 @@ namespace GravityGolf
             }
         }
 
-        void Update() //Check win condition, move ball
+        public void Update() //Check win condition, move ball
         {
 
         }
 
-        void Clear()
+        public void Clear()
         {
             planets.Clear();
         }
