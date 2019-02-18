@@ -18,7 +18,7 @@ namespace GravityGolf
         
         public Universe()
         {
-
+            ball = new Ball(new Vector2(0, 0), 10, 1);
         }
         
         //Gets gravitational force at position pos
@@ -40,11 +40,17 @@ namespace GravityGolf
             planets.Add(p);
         }
 
+        //I just threw this method here for now.  This seems pretty horrible as the ball should not be changable.  We can figure out a better way later.
+        public void SetBall(Ball b)
+        {
+            ball = b;
+        }
+
         public void Draw(SpriteBatch sb)
         {
             foreach (Planet planet in planets)
-            {//Where are we going to put the texture file? With the object or just load it onto here?
-                sb.Draw(null, new Vector2(planet.X, planet.Y), Color.White);
+            {
+                sb.Draw(planet.Texture, new Vector2(planet.X, planet.Y), Color.White);
             }
         }
 

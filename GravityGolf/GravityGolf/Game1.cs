@@ -32,7 +32,32 @@ namespace GravityGolf
         protected override void Initialize()
         {
             universe = new Universe();
-             
+
+            BinaryWriter output = null;
+            try
+            {
+                Stream outStream = File.OpenRead("1.level");
+                output = new BinaryWriter(outStream);
+
+                //--Ball--//
+                output.Write(100f); //x of planet
+                output.Write(100f); //y of planet
+                output.Write(50); //radius
+                output.Write("red.png");//texture
+
+                //--Planet--//
+                output.Write(100f); //x of planet
+                output.Write(100f); //y of planet
+                output.Write(50); //radius
+                output.Write(150); //mass
+                output.Write("red.png");//texture
+            }
+            finally
+            {
+                if (output != null)
+                    output.Close();
+            }
+
             base.Initialize();
         }
 
@@ -101,7 +126,7 @@ namespace GravityGolf
                     universe.Add(new Planet(
                         new Vector2(input.ReadSingle(), input.ReadSingle()), 
                         input.ReadInt32(), 
-                        input.ReadUInt32(),
+                        input.ReadInt32(),
                         Content.Load<Texture2D>(input.ReadString()) ));
                 }
             } 
