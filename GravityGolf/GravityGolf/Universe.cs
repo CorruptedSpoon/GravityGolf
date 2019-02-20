@@ -13,12 +13,11 @@ namespace GravityGolf
     {
         List<Planet> planets = new List<Planet>();
         Ball ball;
-        //Gravitational Constant
-        private double G = (6.674f * Math.Pow(10, -11));
+        /*Gravitational Constant*/ private double G = (6.674f * Math.Pow(10, -11));
         
         public Universe()
         {
-            
+
         }
         
         //Gets gravitational force at position pos
@@ -29,8 +28,7 @@ namespace GravityGolf
             Vector2 force = new Vector2();
             foreach(Planet planet in planets)
             {
-                force.X += planet.X - pos.X;
-                force.Y += planet.Y - pos.Y;
+                force += planet.ForceAt(new Vector2(pos.X, pos.Y));
             }
             return force;
         }
@@ -41,7 +39,7 @@ namespace GravityGolf
         }
 
         //I just threw this method here for now.  This seems pretty horrible as the ball should not be changable.  We can figure out a better way later.
-        public void SetBall(Ball b)
+        public void SetBall(Ball b) //Maybe put in constructor?
         {
             ball = b;
         }
@@ -57,7 +55,7 @@ namespace GravityGolf
 
         public void Update() //Check win condition, move ball
         {
-
+            //Need to make the hole point, check if ball is in that point, then win
         }
 
         public void Clear()

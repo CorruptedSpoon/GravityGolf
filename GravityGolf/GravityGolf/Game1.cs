@@ -31,7 +31,7 @@ namespace GravityGolf
         /// </summary>
         protected override void Initialize()
         {
-            universe = new Universe();
+            Universe universe = new Universe();
             level = 0;
 
             BinaryWriter output = null;
