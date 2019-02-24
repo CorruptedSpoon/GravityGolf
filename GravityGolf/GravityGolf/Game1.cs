@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 using System.IO;
 
 namespace GravityGolf
@@ -31,10 +32,16 @@ namespace GravityGolf
         /// </summary>
         protected override void Initialize()
         {
-           universe = new Universe();
+            universe = new Universe();
             level = 0;
 
-            BinaryWriter output = null;
+            List<object[]> level1 = new List<object[]>();
+            level1.Add(new object[2] { new Vector2(200, 300), PlanetType.medium });
+            level1.Add(new object[2] { new Vector2(500, 400), PlanetType.small });
+            level1.Add(new object[2] { new Vector2(100, 100), PlanetType.big });
+            LevelWriter.WriteLevel("level1", 60, 60, level1);
+            
+            /*BinaryWriter output = null;
             try
             {
                 Stream outStream = File.OpenWrite("1.level");
@@ -59,10 +66,11 @@ namespace GravityGolf
             {
                 if (output != null)
                     output.Close();
-            }
+            }*/
             NextLevel();
 
             base.Initialize();
+
         }
 
         /// <summary>
@@ -116,13 +124,13 @@ namespace GravityGolf
             base.Draw(gameTime);
         }
 
-        protected void NextLevel() 
+        protected void NextLevel()
         {
             numStrokes = 0;
             level++;
             universe.Clear();
 
-            BinaryReader input = null;
+            /*BinaryReader input = null;
             try {
                 Stream inStream = File.OpenRead(level+".level");
                 input = new BinaryReader(inStream);
@@ -146,7 +154,9 @@ namespace GravityGolf
             finally {
                 if (input!=null)
                     input.Close();
-            }
+            }*/
+
+            universe.LoadLevel("level1.level", Content);
         }
     }
 }

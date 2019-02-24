@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -57,4 +56,7 @@ namespace GravityGolf
             return (p - center).LengthSquared() < radius * radius; 
         }
     }
+
+    //used for loading a specific planet type (radius, mass, texture)
+    enum PlanetType { big, medium, small }
 }

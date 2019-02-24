@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -61,6 +63,48 @@ namespace GravityGolf
         public void Clear()
         {
             planets.Clear();
+        }
+
+        //loads a level using a string for the .level
+        //planets can be determined by a vector2, and a PlanetType enum. The enum will determine the mass, radius, and texture of the planet.
+        public void LoadLevel(string level, ContentManager content)
+        {
+            BinaryReader input = null;
+            try
+            {
+                Stream inStream = File.OpenRead(level);
+                input = new BinaryReader(inStream);
+
+                //numbers for radius and mass here should be constant, numbers that I put should be changed
+                SetBall(new Ball(new Vector2(input.Read(), input.Read()),5,1,content.Load<Texture2D>("red")));
+
+                int num = input.Read();
+
+                for(int x = 0; x < num; x++)
+                {
+                    Vector2 vector = new Vector2(input.Read(), input.Read());
+                    //determines the statistics of each planet type, change numbers for planets as seen fit
+                    switch (input.Read())
+                    {
+                        case (int)PlanetType.small:
+                            planets.Add(new Planet(vector, 100, 10, content.Load<Texture2D>("PlanetSmall"), Color.White));
+                            break;
+
+                        case (int)PlanetType.medium:
+                            planets.Add(new Planet(vector, 200, 20, content.Load<Texture2D>("PlanetMedium"), Color.White));
+                            break;
+
+                        case (int)PlanetType.big:
+                            planets.Add(new Planet(vector, 300, 30, content.Load<Texture2D>("PlanetLarge"), Color.White));
+                            break;
+                    }
+                }
+            }
+            finally
+            {
+                if (input != null)
+                    input.Close();
+            }
         }
     }
 }
