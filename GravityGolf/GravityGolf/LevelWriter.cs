@@ -34,8 +34,8 @@ namespace GravityGolf
 
                 for (int x = 0; x < vectorAndPlanetType.Count; x++)
                 {
-                    output.Write(((Vector2)vectorAndPlanetType[x][0]).X);
-                    output.Write(((Vector2)vectorAndPlanetType[x][0]).Y);
+                    output.Write((int)((Vector2)vectorAndPlanetType[x][0]).X);
+                    output.Write((int)((Vector2)vectorAndPlanetType[x][0]).Y);
 
                     output.Write((int)vectorAndPlanetType[x][1]);
                 }

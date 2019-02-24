@@ -32,13 +32,19 @@ namespace GravityGolf
         /// </summary>
         protected override void Initialize()
         {
+            //testing
+            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.ApplyChanges();
+
             universe = new Universe();
             level = 0;
 
+            //creating an example level 1 using LevelWriter
             List<object[]> level1 = new List<object[]>();
-            level1.Add(new object[2] { new Vector2(200, 300), PlanetType.medium });
-            level1.Add(new object[2] { new Vector2(500, 400), PlanetType.small });
-            level1.Add(new object[2] { new Vector2(100, 100), PlanetType.big });
+            level1.Add(new object[2] { new Vector2(220, 200), PlanetType.medium });
+            level1.Add(new object[2] { new Vector2(1100, 300), PlanetType.small });
+            level1.Add(new object[2] { new Vector2(700, 500), PlanetType.big });
             LevelWriter.WriteLevel("level1", 60, 60, level1);
             
             /*BinaryWriter output = null;

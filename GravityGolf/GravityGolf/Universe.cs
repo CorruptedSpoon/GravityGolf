@@ -76,15 +76,17 @@ namespace GravityGolf
                 input = new BinaryReader(inStream);
 
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
-                SetBall(new Ball(new Vector2(input.Read(), input.Read()),5,1,content.Load<Texture2D>("red")));
+                SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),5,1,content.Load<Texture2D>("red")));
 
-                int num = input.Read();
+                int num = input.ReadInt32();
 
                 for(int x = 0; x < num; x++)
                 {
-                    Vector2 vector = new Vector2(input.Read(), input.Read());
+                    int vx = input.ReadInt32();
+                    int vy = input.ReadInt32();
+                    Vector2 vector = new Vector2(vx, vy);
                     //determines the statistics of each planet type, change numbers for planets as seen fit
-                    switch (input.Read())
+                    switch (input.ReadInt32())
                     {
                         case (int)PlanetType.small:
                             planets.Add(new Planet(vector, 100, 10, content.Load<Texture2D>("PlanetSmall"), Color.White));
@@ -95,7 +97,7 @@ namespace GravityGolf
                             break;
 
                         case (int)PlanetType.big:
-                            planets.Add(new Planet(vector, 300, 30, content.Load<Texture2D>("PlanetLarge"), Color.White));
+                            planets.Add(new Planet(vector, 300, 30, content.Load<Texture2D>("PlanetBig"), Color.White));
                             break;
                     }
                 }
