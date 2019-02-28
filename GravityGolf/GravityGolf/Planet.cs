@@ -58,5 +58,20 @@ namespace GravityGolf
     }
 
     //used for loading a specific planet type (radius, mass, texture)
-    enum PlanetType { big, medium, small }
+    public enum PlanetType { big, medium, small }
+
+    //used for level writing and reading
+    public struct PlanetStruct
+    {
+        public int x;
+        public int y;
+        public PlanetType planetType;
+
+        public PlanetStruct(int x, int y, PlanetType planetType)
+        {
+            this.x = x;
+            this.y = y;
+            this.planetType = planetType;
+        }
+    }
 }

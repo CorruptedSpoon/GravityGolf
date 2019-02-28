@@ -19,7 +19,7 @@ namespace GravityGolf
         /// <param name="ballX">x position of ball</param>
         /// <param name="ballY">y position of ball</param>
         /// <param name="vectorAndPlanetType">a list of arrays that contain a vector2 for the planets location, and a PlanetType (determines size, mass, and texture)</param>
-        public static void WriteLevel(string level, int ballX, int ballY, List<object[]> vectorAndPlanetType)
+        public static void WriteLevel(string level, int ballX, int ballY, List<PlanetStruct> planets)
         {
             BinaryWriter output = null;
             try
@@ -30,14 +30,14 @@ namespace GravityGolf
                 output.Write(ballX);
                 output.Write(ballY);
 
-                output.Write(vectorAndPlanetType.Count);
+                output.Write(planets.Count);
 
-                for (int x = 0; x < vectorAndPlanetType.Count; x++)
+                for (int x = 0; x < planets.Count; x++)
                 {
-                    output.Write((int)((Vector2)vectorAndPlanetType[x][0]).X);
-                    output.Write((int)((Vector2)vectorAndPlanetType[x][0]).Y);
+                    output.Write(planets[x].x);
+                    output.Write(planets[x].y);
 
-                    output.Write((int)vectorAndPlanetType[x][1]);
+                    output.Write((int)planets[x].planetType);
                 }
             }
             finally

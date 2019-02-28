@@ -76,7 +76,7 @@ namespace GravityGolf
                 input = new BinaryReader(inStream);
 
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
-                SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),5,1,content.Load<Texture2D>("red")));
+                SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
 
                 int num = input.ReadInt32();
 
