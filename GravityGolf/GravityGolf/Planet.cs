@@ -50,7 +50,7 @@ namespace GravityGolf
         /// </summary>
         /// <param name="p">The position Vector being checked</param>
         /// <returns>whether of not the point represented by the position vector p is inside of this Planet</returns>
-        bool isInside(Vector2 p)
+        public bool IsInside(Vector2 p)
         {
             //this should be faster than checking if the length is less than radius becuause an extra multiplication should be faster than a squre root
             return (p - center).LengthSquared() < radius * radius; 
