@@ -58,8 +58,25 @@ namespace GravityGolf
         public void Update() //Check win condition, move ball
         {
             //Need to make the hole point, check if ball is in that point, then win
-            ball.Accelerate(ForceAt(ball.Center));
-            ball.Translate();
+            bool planetIntersect = false;
+            bool planetIntersectChange = false;
+            foreach(Planet planet in planets)
+            {
+                if(Math.Sqrt(Math.Pow(planet.X-ball.X, 2)+Math.Pow(planet.Y-ball.Y, 2)) < planet.Radius+ball.Radius)
+                {
+                    planetIntersect = true;
+                }
+            }
+            if (planetIntersect == false)
+            {
+                ball.Accelerate(ForceAt(ball.Center));
+                ball.Translate();
+            }
+            if(planetIntersect != planetIntersectChange)
+            {
+                //Increase stroke
+            }
+            planetIntersectChange = planetIntersect;
         }
 
         public void Clear()
