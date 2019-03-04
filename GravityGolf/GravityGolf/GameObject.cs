@@ -20,6 +20,8 @@ namespace GravityGolf
 
 
         public Vector2 Center { get { return center; } }
+        public int Radius { get { return radius; } }
+        public float Mass { get { return mass; } }
 
         /// <summary>
         /// Gets the x-coordinate of this GameObject's center
