@@ -57,7 +57,6 @@ namespace GravityGolf
 
         public void Update() //Check win condition, move ball
         {
-            //Need to make the hole point, check if ball is in that point, then win
             ball.Accelerate(ForceAt(ball.Center));
             ball.Translate();
         }
