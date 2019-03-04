@@ -18,6 +18,9 @@ namespace GravityGolf
         protected Texture2D tex; //maybe get rid of these (this and color)?
         protected Color? color; 
 
+
+        public Vector2 Center { get { return center; } }
+
         /// <summary>
         /// Gets the x-coordinate of this GameObject's center
         /// </summary>
