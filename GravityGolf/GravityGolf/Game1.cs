@@ -38,6 +38,9 @@ namespace GravityGolf
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
+            Form1 form = new Form1();
+            form.Show();
+
             universe = new Universe();
             level = 0;
 
