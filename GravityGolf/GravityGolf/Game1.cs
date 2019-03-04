@@ -49,7 +49,7 @@ namespace GravityGolf
             level1.Add(new PlanetStruct(220, 200, PlanetType.medium));
             level1.Add(new PlanetStruct(1100, 300, PlanetType.small));
             level1.Add(new PlanetStruct(700, 500, PlanetType.big));
-            LevelWriter.WriteLevel("level1", 60, 60, level1);
+            LevelWriter.WriteLevel("level1", 1000, 800, level1);
             
             /*BinaryWriter output = null;
             try
@@ -78,6 +78,8 @@ namespace GravityGolf
                     output.Close();
             }*/
             NextLevel();
+
+            IsMouseVisible = true;
 
             base.Initialize();
 

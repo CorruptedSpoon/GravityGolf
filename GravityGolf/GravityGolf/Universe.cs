@@ -23,14 +23,14 @@ namespace GravityGolf
         }
         
         //Gets gravitational force at position pos
-        public Vector2 ForceAt(Point pos)
+        public Vector2 ForceAt(Vector2 pos)
         {
             //this method had a linear gravity that gets stronger the farther away you are
             //the line inside the loop should br force+=planet.ForceAt(pos);
             Vector2 force = new Vector2();
             foreach(Planet planet in planets)
             {
-                force += planet.ForceAt(new Vector2(pos.X, pos.Y));
+                force += planet.ForceAt(pos);
             }
             return force;
         }
@@ -48,16 +48,17 @@ namespace GravityGolf
 
         public void Draw(SpriteBatch sb)
         {
-            ball.Draw(sb);
             foreach (Planet planet in planets)
             {
                 planet.Draw(sb);
             }
+            ball.Draw(sb);
         }
 
         public void Update() //Check win condition, move ball
         {
-            //Need to make the hole point, check if ball is in that point, then win
+            ball.Accelerate(ForceAt(ball.Center));
+            ball.Translate();
         }
 
         public void Clear()
