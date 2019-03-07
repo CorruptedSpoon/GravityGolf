@@ -68,11 +68,14 @@ namespace GravityGolf
             //Need to make the hole point, check if ball is in that point, then win
             bool planetIntersect = false;
             bool planetIntersectChange = false;
+            Planet touching = null;
             foreach(Planet planet in planets)
             {
+                //check to see if the ball is experiencing collision w/ any of the planets
 				if (planet.IsInside(ball.Center - ball.Radius*planet.UnitNormalAt(ball.Center)))
                 {
                     planetIntersect = true;
+                    touching = planet;
                 }
             }
             if (planetIntersect == true) //iff in a planet
@@ -89,7 +92,9 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
 				{
-					ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
+                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + LaunchStrength * ((Vector2)click2 - (Vector2)click1))) {
+                        ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
+                    }
 					Console.WriteLine(((Vector2)click1).X);
 					Console.Write(click2);
 				}
