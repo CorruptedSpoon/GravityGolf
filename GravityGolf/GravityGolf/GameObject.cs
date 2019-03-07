@@ -18,9 +18,17 @@ namespace GravityGolf
         protected Texture2D tex; //maybe get rid of these (this and color)?
         protected Color? color; 
 
-
+        /// <summary>
+        /// get the center of the object
+        /// </summary>
         public Vector2 Center { get { return center; } }
+        /// <summary>
+        /// get the radius of the object
+        /// </summary>
         public int Radius { get { return radius; } }
+        /// <summary>
+        /// get the mass of the object
+        /// </summary>
         public float Mass { get { return mass; } }
 
         /// <summary>

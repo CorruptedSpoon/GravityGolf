@@ -13,8 +13,9 @@ namespace GravityGolf {
         private Vector2 direction;
 
         // -----Properties-----
-        //They're get properties for the fields please don't make me comment
-        //every single one of these
+        /// <summary>
+        /// get direction vector of the ball
+        /// </summary>
         public Vector2 Direction { get { return direction; } }
 
         // -----Constructor-----

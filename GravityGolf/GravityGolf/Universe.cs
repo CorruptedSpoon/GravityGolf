@@ -70,8 +70,7 @@ namespace GravityGolf
             bool planetIntersectChange = false;
             foreach(Planet planet in planets)
             {
-				//I think we could say if(planet.IsInside(ball.Center)-ball.Radius*ball.UnitNormal()) instead; it's a little cleaner
-				if (Math.Sqrt(Math.Pow(planet.X-ball.X, 2)+Math.Pow(planet.Y-ball.Y, 2)) < planet.Radius+ball.Radius) 
+				if (planet.IsInside(ball.Center - ball.Radius*planet.UnitNormalAt(ball.Center)))
                 {
                     planetIntersect = true;
                 }
@@ -90,7 +89,7 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
 				{
-					ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1) - ball.Direction);
+					ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
 					Console.WriteLine(((Vector2)click1).X);
 					Console.Write(click2);
 				}
