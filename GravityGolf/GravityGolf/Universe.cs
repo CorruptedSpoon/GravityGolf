@@ -20,7 +20,7 @@ namespace GravityGolf
 		private Vector2? click2;
 
 		private const float LaunchStrength = 0.05f;
-		private const int G = 160;
+		private const int G = 150;
 
 		ButtonState oldState;
         
@@ -76,6 +76,7 @@ namespace GravityGolf
                 {
                     planetIntersect = true;
                     touching = planet;
+                    ball.Unclip(touching);
                 }
             }
             if (planetIntersect == true) //iff in a planet

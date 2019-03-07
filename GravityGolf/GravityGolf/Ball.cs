@@ -40,5 +40,10 @@ namespace GravityGolf {
         public void Accelerate(Vector2 acc) {
             direction += acc;
         }
+        public void Unclip(Planet planet) {
+            float distance = planet.Radius - Vector2.Distance(planet.Center, center);
+            Vector2 toMove = planet.UnitNormalAt(center) * (distance + radius);
+            center += toMove;
+        }
     }
 }
