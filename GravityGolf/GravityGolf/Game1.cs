@@ -4,6 +4,14 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
 
+enum GameState
+{
+	Menu, 
+	Playing,
+	Paused,
+	Complete //player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
+}
+
 namespace GravityGolf
 {
     /// <summary>
@@ -17,6 +25,7 @@ namespace GravityGolf
         Universe universe;
         int level;
         int numStrokes;
+		GameState state;
 
         public Game1()
         {
@@ -40,6 +49,7 @@ namespace GravityGolf
 
             universe = new Universe();
             level = 0;
+			state = GameState.Playing; //change this when we make a menu
 
             //creating an example level 1 using LevelWriter
             List<PlanetStruct> level1 = new List<PlanetStruct>();
@@ -84,10 +94,22 @@ namespace GravityGolf
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //we can get rid of this and add an exit buttonn in menu when we get there
                 Exit();
 
-            universe.Update();
+			switch (state)
+			{
+				case GameState.Menu:
+					break;
+				case GameState.Playing:
+					universe.Update();
+					break;
+				case GameState.Paused:
+					break;
+				case GameState.Complete:
+					break;
+			}
+			
 
             base.Update(gameTime);
         }
@@ -101,7 +123,19 @@ namespace GravityGolf
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            universe.Draw(spriteBatch);
+			switch (state)
+			{
+				case GameState.Menu:
+					break;
+				case GameState.Playing:
+					universe.Draw(spriteBatch);
+					break;
+				case GameState.Paused:
+					break;
+				case GameState.Complete:
+					break;
+			}
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
