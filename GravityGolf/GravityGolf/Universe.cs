@@ -20,7 +20,7 @@ namespace GravityGolf
 		private Vector2? click2;
 
 		private const float LaunchStrength = 0.05f;
-		private const int G = 80;
+		private const int G = 160;
 
 		ButtonState oldState;
         
@@ -138,15 +138,15 @@ namespace GravityGolf
                     switch (input.ReadInt32())
                     {
                         case (int)PlanetType.small:
-                            planets.Add(new Planet(vector, 100, 10, content.Load<Texture2D>("PlanetSmall"), Color.White));
+                            planets.Add(new Planet(vector, 100, 30, content.Load<Texture2D>("PlanetSmall"), Color.White));
                             break;
 
                         case (int)PlanetType.medium:
-                            planets.Add(new Planet(vector, 200, 20, content.Load<Texture2D>("PlanetMedium"), Color.White));
+                            planets.Add(new Planet(vector, 150, 68, content.Load<Texture2D>("PlanetMedium"), Color.White));
                             break;
 
                         case (int)PlanetType.big:
-                            planets.Add(new Planet(vector, 300, 30, content.Load<Texture2D>("PlanetBig"), Color.White));
+                            planets.Add(new Planet(vector, 200, 120, content.Load<Texture2D>("PlanetBig"), Color.White));
                             break;
                     }
                 }
