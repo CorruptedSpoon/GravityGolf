@@ -38,9 +38,6 @@ namespace GravityGolf
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
-            Form1 form = new Form1();
-            form.Show();
-
             universe = new Universe();
             level = 0;
 
@@ -51,32 +48,6 @@ namespace GravityGolf
             level1.Add(new PlanetStruct(700, 500, PlanetType.big));
             LevelWriter.WriteLevel("level1", 1200, 800, level1);
             
-            /*BinaryWriter output = null;
-            try
-            {
-                Stream outStream = File.OpenWrite("1.level");
-                output = new BinaryWriter(outStream);
-
-                //--Ball--//
-                output.Write(20f); //x of ball
-                output.Write(20f); //y of ball
-                output.Write(5); //radius
-                output.Write("red");//texture
-
-                output.Write((byte)1); //number of planets
-
-                //--Planet--//
-                output.Write(100f); //x of planet
-                output.Write(100f); //y of planet
-                output.Write(50); //radius
-                output.Write(150); //mass
-                output.Write("red");//texture
-            }
-            finally
-            {
-                if (output != null)
-                    output.Close();
-            }*/
             NextLevel();
 
             IsMouseVisible = true;
@@ -141,32 +112,6 @@ namespace GravityGolf
             numStrokes = 0;
             level++;
             universe.Clear();
-
-            /*BinaryReader input = null;
-            try {
-                Stream inStream = File.OpenRead(level+".level");
-                input = new BinaryReader(inStream);
-
-                universe.SetBall(new Ball(
-                    new Vector2(input.ReadSingle(), input.ReadSingle()),
-                        input.ReadInt32(),
-                        1,
-                        Content.Load<Texture2D>(input.ReadString())));
-                byte i = 0;
-                byte total = input.ReadByte();//number of planets
-                while (i++<total)//inStream.Position < inStream.Length) 
-                {
-                    universe.Add(new Planet(
-                        new Vector2(input.ReadSingle(), input.ReadSingle()), 
-                        input.ReadInt32(), 
-                        input.ReadInt32(),
-                        Content.Load<Texture2D>(input.ReadString()) ));
-                }
-            } 
-            finally {
-                if (input!=null)
-                    input.Close();
-            }*/
 
             universe.LoadLevel("level1.level", Content);
         }

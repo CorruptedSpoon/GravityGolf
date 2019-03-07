@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace GravityGolf
 {
@@ -9,13 +10,20 @@ namespace GravityGolf
     public static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// The main entry point for the application. adding "-tool" to command line arguments launches external tool
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            using (var game = new Game1())
-                game.Run();
+            if (args.Length>0 && args[0] == "-tool")
+            {
+                Application.Run(new Form1());
+            }
+            else
+            {
+                using (var game = new Game1())
+                    game.Run();
+            }
         }
     }
 #endif
