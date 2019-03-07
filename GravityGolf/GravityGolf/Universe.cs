@@ -15,11 +15,19 @@ namespace GravityGolf
     {
         List<Planet> planets = new List<Planet>();
         Ball ball;
-        /*Gravitational Constant*/ private double G = (6.674f * Math.Pow(10, -11));
+
+		private Vector2? click1;
+		private Vector2? click2;
+
+		private const float LaunchStrength = 0.05f;
+		private const int G = 80;
+
+		ButtonState oldState;
         
         public Universe()
         {
-
+			click1 = null;
+			click2 = null;
         }
         
         //Gets gravitational force at position pos
@@ -62,22 +70,45 @@ namespace GravityGolf
             bool planetIntersectChange = false;
             foreach(Planet planet in planets)
             {
-                if(Math.Sqrt(Math.Pow(planet.X-ball.X, 2)+Math.Pow(planet.Y-ball.Y, 2)) < planet.Radius+ball.Radius)
+				//I think we could say if(planet.IsInside(ball.Center)-ball.Radius*ball.UnitNormal()) instead; it's a little cleaner
+				if (Math.Sqrt(Math.Pow(planet.X-ball.X, 2)+Math.Pow(planet.Y-ball.Y, 2)) < planet.Radius+ball.Radius) 
                 {
                     planetIntersect = true;
                 }
             }
-            if (planetIntersect == false)
+            if (planetIntersect == true) //iff in a planet
             {
-                ball.Accelerate(ForceAt(ball.Center));
-                ball.Translate();
-            }
-            if(planetIntersect != planetIntersectChange)
+                ball.Accelerate(-ball.Direction); //apply normal force
+				//----player controls----
+				if (FirstClick())
+				{
+					click1 = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+				}
+				else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+				{
+					click2 = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+				}
+				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
+				{
+					ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1) - ball.Direction);
+					Console.WriteLine(((Vector2)click1).X);
+					Console.Write(click2);
+				}
+			}
+			else
+			{
+				ball.Accelerate(G * ForceAt(ball.Center));
+			}
+			
+            if(planetIntersect != planetIntersectChange) //this seems very wrong; why should stroke increase whenever I land on or leave a planet rather than when I hit the ball?
             {
                 //Increase stroke
             }
             planetIntersectChange = planetIntersect;
-        }
+
+			oldState = Mouse.GetState().LeftButton;
+			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
+		}
 
         public void Clear()
         {
@@ -127,5 +158,12 @@ namespace GravityGolf
                     input.Close();
             }
         }
+
+		private bool FirstClick()
+		{
+			if (Mouse.GetState().LeftButton == ButtonState.Pressed && oldState == ButtonState.Released)
+				return true;
+			return false;
+		}
     }
 }

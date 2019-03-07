@@ -37,7 +37,7 @@ namespace GravityGolf {
         }
 
         public void Accelerate(Vector2 acc) {
-            direction += 20*acc;
+            direction += acc;
         }
     }
 }
