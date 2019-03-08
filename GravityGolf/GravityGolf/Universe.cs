@@ -99,8 +99,6 @@ namespace GravityGolf
                     if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + LaunchStrength * ((Vector2)click2 - (Vector2)click1))) {
                         ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
                     }
-					Console.WriteLine(((Vector2)click1).X);
-					Console.Write(click2);
 				}
 			}
 			else
