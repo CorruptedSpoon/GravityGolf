@@ -23,11 +23,14 @@ namespace GravityGolf
 		private const int G = 150;
 
 		ButtonState oldState;
-        
-        public Universe()
+
+        Game1 game;
+
+        public Universe(Game1 game)
         {
 			click1 = null;
 			click2 = null;
+            this.game = game;
         }
         
         //Gets gravitational force at position pos
@@ -113,6 +116,10 @@ namespace GravityGolf
 
 			oldState = Mouse.GetState().LeftButton;
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
+                game.state = GameState.Paused;
+            }
 		}
 
         public void Clear()

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
 
-enum GameState
+public enum GameState
 {
 	Menu, 
 	Playing,
@@ -23,9 +23,11 @@ namespace GravityGolf
         SpriteBatch spriteBatch;
 
         Universe universe;
+        StartMenu startMenu;
+        PauseMenu pauseMenu;
         int level;
         int numStrokes;
-		GameState state;
+		public GameState state;
 
         public Game1()
         {
@@ -47,9 +49,12 @@ namespace GravityGolf
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
-            universe = new Universe();
+            universe = new Universe(this);
+            startMenu = new StartMenu(Content, this);
+            pauseMenu = new PauseMenu(Content, this);
+
             level = 0;
-			state = GameState.Playing; //change this when we make a menu
+			state = GameState.Menu;
 
             //creating an example level 1 using LevelWriter
             List<PlanetStruct> level1 = new List<PlanetStruct>();
@@ -96,15 +101,18 @@ namespace GravityGolf
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //we can get rid of this and add an exit buttonn in menu when we get there
                 Exit();
+            
 
 			switch (state)
 			{
 				case GameState.Menu:
+                    startMenu.Update();
 					break;
 				case GameState.Playing:
 					universe.Update();
 					break;
 				case GameState.Paused:
+                    pauseMenu.Update();
 					break;
 				case GameState.Complete:
 					break;
@@ -126,11 +134,13 @@ namespace GravityGolf
 			switch (state)
 			{
 				case GameState.Menu:
+                    startMenu.Draw(spriteBatch);
 					break;
 				case GameState.Playing:
 					universe.Draw(spriteBatch);
 					break;
 				case GameState.Paused:
+                    pauseMenu.Draw(spriteBatch);
 					break;
 				case GameState.Complete:
 					break;
