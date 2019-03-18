@@ -73,6 +73,9 @@ namespace GravityGolf
                 planet.Draw(sb);
             }
             ball.Draw(sb);
+
+            if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
+                DrawArc(sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
             hole.Draw(sb);
         }
 
@@ -100,7 +103,7 @@ namespace GravityGolf
 				{
 					click1 = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 				}
-				else if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+				else if (Mouse.GetState().LeftButton == ButtonState.Pressed) //while dragging
 				{
 					click2 = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 				}
@@ -130,9 +133,6 @@ namespace GravityGolf
 			oldState = Mouse.GetState().LeftButton;
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
-                game.state = GameState.Paused;
-            }
 		}
 
         public void Clear()
@@ -192,5 +192,33 @@ namespace GravityGolf
 				return true;
 			return false;
 		}
+
+        /// <summary>
+        /// Draws the trajectory of a particle launched at velocity for pos over iteration frames
+        /// </summary>
+        /// <param name="sb">the spritebatch with which to draw the path.  Begin() must have already been called</param>
+        /// <param name="pos">the initial position of the particle</param>
+        /// <param name="velocity">the initial velocity of the particle</param>
+        /// <param name="iterations">the number of future frames over which to draw the trajectory</param>
+        private void DrawArc(SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations)
+        {
+            Texture2D tex = new Texture2D(game.GraphicsDevice, 1, 1);
+            tex.SetData(new Color[] { Color.White }, 0, 1);
+            Vector2 nextPos;
+            for(int i = 0; i<iterations; i++)
+            {
+                velocity += G * ForceAt(pos);
+                nextPos = pos + velocity;
+                sb.Draw(tex, 
+                    pos, 
+                    null, 
+                    Color.White, 
+                    (float) Math.Atan2((nextPos - pos).Y, (nextPos - pos).X), 
+                    new Vector2(0, 0), 
+                    new Vector2((nextPos - pos).Length(), 1), 
+                    SpriteEffects.None, 1);
+                pos = nextPos;
+            }
+        }
     }
 }
