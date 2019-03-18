@@ -99,9 +99,9 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
 				{
-                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + LaunchStrength * ((Vector2)click2 - (Vector2)click1))) {
+                    //if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + LaunchStrength * ((Vector2)click2 - (Vector2)click1))) {
                         ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
-                    }
+                    //}
 				}
 			}
 			else

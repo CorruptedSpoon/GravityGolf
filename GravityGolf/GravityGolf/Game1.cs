@@ -29,6 +29,9 @@ namespace GravityGolf
         int numStrokes;
 		public GameState state;
 
+        KeyboardState currentState;
+        KeyboardState previousState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -90,9 +93,7 @@ namespace GravityGolf
         {
             // TODO: Unload any non ContentManager content here
         }
-
-        KeyboardState currentState;
-        KeyboardState previousState;
+        
         
         /// <summary>
         /// Allows the game to run logic such as updating the world,
