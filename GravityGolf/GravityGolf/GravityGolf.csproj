@@ -50,6 +50,7 @@
     </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="Hole.cs" />
     <Compile Include="LevelWriter.cs" />
     <Compile Include="PauseMenu.cs" />
     <Compile Include="Planet.cs" />
