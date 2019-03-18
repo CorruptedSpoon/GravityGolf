@@ -114,10 +114,6 @@ namespace GravityGolf
 
 			oldState = Mouse.GetState().LeftButton;
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
-                game.state = GameState.Paused;
-            }
 		}
 
         public void Clear()

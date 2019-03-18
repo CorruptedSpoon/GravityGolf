@@ -32,12 +32,6 @@ namespace GravityGolf {
         }
 
         public void Update() {
-            if (Keyboard.GetState().IsKeyDown(Keys.Tab)) {
-                game.state = GameState.Playing;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift)) {
-                game.state = GameState.Menu;
-            }
         }
     }
 }
