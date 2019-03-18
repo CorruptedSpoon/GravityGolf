@@ -85,7 +85,7 @@ namespace GravityGolf
         /// <param name="sb">the SpriteBatch with which to draw this</param>
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(tex, new Rectangle((int)(X+0.5)-radius, (int)(Y+0.5)-radius, 2*radius, 2*radius), (Color)color);
+            sb.Draw(tex, new Rectangle((int)(X+0.5)-radius, (int)(Y+0.5)-radius, 2*radius, 2*radius), null, (Color)color, 0f, new Vector2(0, 0), SpriteEffects.None, 1f);
         }
     }
 }
