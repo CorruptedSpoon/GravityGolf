@@ -87,5 +87,25 @@ namespace GravityGolf
         {
             sb.Draw(tex, new Rectangle((int)(X+0.5)-radius, (int)(Y+0.5)-radius, 2*radius, 2*radius), null, (Color)color, 0f, new Vector2(0, 0), SpriteEffects.None, 1f);
         }
+
+        /// <summary>
+        /// Draws this GameObject on the screen
+        /// </summary>
+        /// <param name="graphicsDevice">the GraphicsDevice on which this will be drawn</param>
+        /// <param name="sb">the SpriteBatch with which to draw this</param>
+        /// <param name="scale">the scale at which to draw this (around the center)</param>
+        public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb, float scale)
+        {
+            int xCenter = (int)(graphicsDevice.Viewport.Width / 2+(X - graphicsDevice.Viewport.Width / 2) * scale);
+            int yCenter = (int)(graphicsDevice.Viewport.Height / 2 + (Y - graphicsDevice.Viewport.Height / 2) * scale);
+            sb.Draw(tex, 
+                new Rectangle(xCenter - radius, yCenter - radius, (int)(2*radius*scale), (int)(2*radius*scale)), 
+                null,
+                (Color)color,
+                0f,
+                new Vector2(0, 0),
+                SpriteEffects.None,
+                1f);
+        }
     }
 }

@@ -100,12 +100,21 @@ namespace GravityGolf
         /// <param name="sb">the SpriteBatch to use to draw the assets</param>
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb)
         {
+            float scale = 1;
+            if (ball.X > graphicsDevice.Viewport.Width)
+                scale = 1/(2*(ball.X - graphicsDevice.Viewport.Width) / graphicsDevice.Viewport.Width);
+            else if (ball.X < 0)
+                scale = 1/(-2 * ball.X / graphicsDevice.Viewport.Width);
+            if (ball.Y > graphicsDevice.Viewport.Height)
+                scale = Math.Max(scale, 1 / (2 * (ball.Y - graphicsDevice.Viewport.Height) / graphicsDevice.Viewport.Height));
+            else if (ball.Y < 0)
+                scale = Math.Max(scale, 1 / (-2 * ball.Y / graphicsDevice.Viewport.Height));
             foreach (Planet planet in planets)
             {
-                planet.Draw(sb);
+                planet.Draw(graphicsDevice, sb, scale);
             }
-            ball.Draw(sb);
-            hole.Draw(sb);
+            ball.Draw(graphicsDevice, sb, scale);
+            hole.Draw(graphicsDevice, sb, scale);
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
                 DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
                     LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
