@@ -25,6 +25,8 @@ namespace GravityGolf
 
 		ButtonState oldState;
 
+        private bool planetIntersect;
+
         /// <summary>
         /// Creates a new empty Universe
         /// </summary>
@@ -32,6 +34,7 @@ namespace GravityGolf
         {
 			click1 = null;
 			click2 = null;
+            planetIntersect = false;
         }
 
         /// <summary>
@@ -97,20 +100,24 @@ namespace GravityGolf
         public void Update() //Check win condition, move ball
         {
             //Need to make the hole point, check if ball is in that point, then win
-            bool planetIntersect = false;
+            
             bool planetIntersectChange = false;
             Planet touching = null;
             foreach(Planet planet in planets)
             {
                 //check to see if the ball is experiencing collision w/ any of the planets
-				if (planet.IsInside(ball.Center - ball.Radius*planet.UnitNormalAt(ball.Center)))
-                {
+                if (planet.IsInside(ball.Center - ball.Radius * planet.UnitNormalAt(ball.Center))) {
                     planetIntersect = true;
                     touching = planet;
                     ball.Unclip(touching);
+                    break;
+                }
+                else {
+                    planetIntersect = false;
+                    touching = null;
                 }
             }
-            if (planetIntersect == true) //iff in a planet
+            if (planetIntersect) //iff in a planet
             {
                 ball.Accelerate(-ball.Direction); //apply normal force
 				//----player controls----
@@ -122,14 +129,21 @@ namespace GravityGolf
 				{
 					click2 = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
 				}
-				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
+				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released && click1 != null)
 				{
-                    ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
+                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + (LaunchStrength * ((Vector2)click1 - (Vector2)click2)))) {
+                        ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
+                    }
+                    
 				}
 			}
 			else
 			{
 				ball.Accelerate(G * ForceAt(ball.Center));
+
+                //click automatically are nulled if you aren't touching a planet
+                click1 = null;
+                click2 = null;
 			}
 
             //Checking if ball in goal
@@ -213,7 +227,8 @@ namespace GravityGolf
 		private bool FirstClick()
 		{
             return Mouse.GetState().LeftButton == ButtonState.Pressed && oldState == ButtonState.Released;
-		}
+
+        }
 
         /// <summary>
         /// Draws the trajectory of a particle launched at velocity for pos over iteration frames
