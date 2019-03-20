@@ -15,6 +15,7 @@ namespace GravityGolf
     {
         List<Planet> planets = new List<Planet>();
         Ball ball;
+        Hole hole;
 
 		private Vector2? click1;
 		private Vector2? click2;
@@ -24,16 +25,20 @@ namespace GravityGolf
 
 		ButtonState oldState;
 
-        Game1 game;
-
-        public Universe(Game1 game)
+        /// <summary>
+        /// Creates a new empty Universe
+        /// </summary>
+        public Universe()
         {
 			click1 = null;
 			click2 = null;
-            this.game = game;
         }
-        
-        //Gets gravitational force at position pos
+
+        /// <summary>
+        /// Returns the net gravitational force vector at position pos
+        /// </summary>
+        /// <param name="pos">The position at which to calculate the force</param>
+        /// <returns>the net gravitational force vector at position pos</returns>
         public Vector2 ForceAt(Vector2 pos)
         {
             //this method had a linear gravity that gets stronger the farther away you are
@@ -43,9 +48,17 @@ namespace GravityGolf
             {
                 force += planet.ForceAt(pos);
             }
+            if(hole.onPlanet == false)
+            {
+                force += hole.ForceAt(pos);
+            }
             return force;
         }
 
+        /// <summary>
+        /// Adds planet p to this Universe
+        /// </summary>
+        /// <param name="p">The planet to add.  Must not be null.</param>
         public void Add(Planet p)
         {
             planets.Add(p);
@@ -56,19 +69,31 @@ namespace GravityGolf
         {
             ball = b;
         }
+        public void SetHole(Hole h)
+        {
+            hole = h;
+        }
 
-        public void Draw(SpriteBatch sb)
+        /// <summary>
+        /// Draws all of this Universe's content
+        /// </summary>
+        /// <param name="graphicsDevice">the GraphicsDevice to use to draw the assets</param>
+        /// <param name="sb">the SpriteBatch to use to draw the assets</param>
+        public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb)
         {
             foreach (Planet planet in planets)
             {
                 planet.Draw(sb);
             }
             ball.Draw(sb);
-
+            hole.Draw(sb);
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
-                DrawArc(sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
+                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50);
         }
 
+        /// <summary>
+        /// Runs all necessary logic for player input and collision detection
+        /// </summary>
         public void Update() //Check win condition, move ball
         {
             //Need to make the hole point, check if ball is in that point, then win
@@ -99,15 +124,19 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
 				{
-                    //if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + LaunchStrength * ((Vector2)click2 - (Vector2)click1))) {
-                        ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
-                    //}
+                    ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
 				}
 			}
 			else
 			{
 				ball.Accelerate(G * ForceAt(ball.Center));
 			}
+
+            //Checking if ball in goal
+            if(hole.InGoal(ball) == true)
+            {
+                Console.WriteLine("IN GOAL");
+            }
 			
             if(planetIntersect != planetIntersectChange) //this seems very wrong; why should stroke increase whenever I land on or leave a planet rather than when I hit the ball?
             {
@@ -119,13 +148,20 @@ namespace GravityGolf
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
 		}
 
+        /// <summary>
+        /// removes all planets from this Universe
+        /// </summary>
         public void Clear()
         {
             planets.Clear();
         }
 
-        //loads a level using a string for the .level
         //planets can be determined by a vector2, and a PlanetType enum. The enum will determine the mass, radius, and texture of the planet.
+        /// <summary>
+        /// Loads a level from a file
+        /// </summary>
+        /// <param name="level">The filename</param>
+        /// <param name="content">The content manager used to load the files</param>
         public void LoadLevel(string level, ContentManager content)
         {
             BinaryReader input = null;
@@ -136,6 +172,8 @@ namespace GravityGolf
 
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
+                //test hole
+                SetHole(new Hole(new Vector2(200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
 
                 int num = input.ReadInt32();
 
@@ -168,23 +206,26 @@ namespace GravityGolf
             }
         }
 
+        /// <summary>
+        /// Returns whether the left mouse button was just hit
+        /// </summary>
+        /// <returns>whether the left mouse button was just hit</returns>
 		private bool FirstClick()
 		{
-			if (Mouse.GetState().LeftButton == ButtonState.Pressed && oldState == ButtonState.Released)
-				return true;
-			return false;
+            return Mouse.GetState().LeftButton == ButtonState.Pressed && oldState == ButtonState.Released;
 		}
 
         /// <summary>
         /// Draws the trajectory of a particle launched at velocity for pos over iteration frames
         /// </summary>
+        /// <param name="graphicsDevice">the GraphicsDevice to use</param>
         /// <param name="sb">the spritebatch with which to draw the path.  Begin() must have already been called</param>
         /// <param name="pos">the initial position of the particle</param>
         /// <param name="velocity">the initial velocity of the particle</param>
         /// <param name="iterations">the number of future frames over which to draw the trajectory</param>
-        private void DrawArc(SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations)
+        private void DrawArc(GraphicsDevice graphicsDevice ,SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations)
         {
-            Texture2D tex = new Texture2D(game.GraphicsDevice, 1, 1);
+            Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
             Vector2 nextPos;
             for(int i = 0; i<iterations; i++)
