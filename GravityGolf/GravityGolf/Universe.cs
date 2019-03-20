@@ -70,7 +70,7 @@ namespace GravityGolf
                 planet.Draw(sb);
             }
             ball.Draw(sb);
-
+            hole.Draw(sb);
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
                 DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
         }
