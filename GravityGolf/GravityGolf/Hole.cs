@@ -11,15 +11,16 @@ namespace GravityGolf
     class Hole : GameObject
     {
         public bool onPlanet;
-        public Hole(Vector2 center, int radius, float mass, Texture2D tex, Color? color, bool onPlanet) : base(center, radius, mass, tex, color)
+        public Hole(Vector2 center, int radius, float mass, Texture2D tex, Color? color, bool onPlnt) : base(center, radius, mass, tex, color)
         {
+            this.onPlanet = onPlnt;
             if (onPlanet == true)
             {
                 this.mass = 0;
             }
             else
             {
-                this.mass = 10;
+                this.mass = 5;
             }
             this.radius = 20;
         }

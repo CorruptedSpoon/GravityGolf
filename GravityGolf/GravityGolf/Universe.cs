@@ -41,7 +41,7 @@ namespace GravityGolf
             {
                 force += planet.ForceAt(pos);
             }
-            if(hole.onPlanet == true)
+            if(hole.onPlanet == false)
             {
                 force += hole.ForceAt(pos);
             }
@@ -149,7 +149,7 @@ namespace GravityGolf
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
                 //test hole
-                SetHole(new Hole(new Vector2(1200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
+                SetHole(new Hole(new Vector2(200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
 
                 int num = input.ReadInt32();
 
