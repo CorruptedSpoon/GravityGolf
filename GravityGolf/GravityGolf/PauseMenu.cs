@@ -14,14 +14,12 @@ namespace GravityGolf {
         Texture2D buttonMenu;
         Texture2D buttonPlay;
         Texture2D pauseOverlay;
-        Game1 game;
 
-        public PauseMenu(ContentManager content, Game1 game) {
+        public PauseMenu(ContentManager content) {
             buttonExit = content.Load<Texture2D>("ButtonExit");
             buttonMenu = content.Load<Texture2D>("ButtonMenu");
             buttonPlay = content.Load<Texture2D>("ButtonPlay");
             pauseOverlay = content.Load<Texture2D>("PauseOverlay");
-            this.game = game;
         }
 
         public void Draw(SpriteBatch sb) {
