@@ -52,8 +52,8 @@ namespace GravityGolf
             graphics.ApplyChanges();
 
             universe = new Universe();
-            startMenu = new StartMenu(Content, this);
-            pauseMenu = new PauseMenu(Content, this);
+            startMenu = new StartMenu(Content);
+            pauseMenu = new PauseMenu(Content);
 
             level = 0;
 			state = GameState.Menu;
