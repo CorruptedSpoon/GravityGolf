@@ -29,6 +29,9 @@ namespace GravityGolf
         int numStrokes;
 		public GameState state;
 
+        KeyboardState currentState;
+        KeyboardState previousState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -43,13 +46,12 @@ namespace GravityGolf
         /// </summary>
         protected override void Initialize()
         {
-
             //testing
             graphics.PreferredBackBufferWidth = 1600;
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
-            universe = new Universe(this);
+            universe = new Universe();
             startMenu = new StartMenu(Content, this);
             pauseMenu = new PauseMenu(Content, this);
 
@@ -91,7 +93,8 @@ namespace GravityGolf
         {
             // TODO: Unload any non ContentManager content here
         }
-
+        
+        
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -99,25 +102,39 @@ namespace GravityGolf
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) //we can get rid of this and add an exit buttonn in menu when we get there
-                Exit();
-            
+            currentState = Keyboard.GetState();
+
+            //finite state maching works as follows:
+            //from menu, space to start, esc to close program
+            //from game, space to pause
+            //from pause menu, space to resume, esc to main menu
 
 			switch (state)
 			{
 				case GameState.Menu:
                     startMenu.Update();
+                    if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+                        state = GameState.Playing;
+                    else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
+                        Exit();
 					break;
 				case GameState.Playing:
 					universe.Update();
+                    if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+                        state = GameState.Paused;
 					break;
 				case GameState.Paused:
+                    if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+                        state = GameState.Playing;
+                    else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
+                        state = GameState.Menu;
                     pauseMenu.Update();
 					break;
 				case GameState.Complete:
 					break;
 			}
-			
+
+            previousState = currentState;
 
             base.Update(gameTime);
         }
@@ -137,7 +154,7 @@ namespace GravityGolf
                     startMenu.Draw(spriteBatch);
 					break;
 				case GameState.Playing:
-					universe.Draw(spriteBatch);
+					universe.Draw(graphics.GraphicsDevice, spriteBatch);
 					break;
 				case GameState.Paused:
                     pauseMenu.Draw(spriteBatch);

@@ -25,9 +25,7 @@ namespace GravityGolf {
             sb.Draw(buttonPlay, new Rectangle((800 - 128), 500, 256, 128), Color.White);
         }
         public void Update() {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space)) {
-                game.state = GameState.Playing;
-            }
+
         }
         public void Clear() {
 
