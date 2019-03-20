@@ -24,13 +24,10 @@ namespace GravityGolf
 
 		ButtonState oldState;
 
-        Game1 game;
-
-        public Universe(Game1 game)
+        public Universe()
         {
 			click1 = null;
 			click2 = null;
-            this.game = game;
         }
         
         //Gets gravitational force at position pos
@@ -57,7 +54,7 @@ namespace GravityGolf
             ball = b;
         }
 
-        public void Draw(SpriteBatch sb)
+        public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb)
         {
             foreach (Planet planet in planets)
             {
@@ -66,7 +63,7 @@ namespace GravityGolf
             ball.Draw(sb);
 
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
-                DrawArc(sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
+                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
         }
 
         public void Update() //Check win condition, move ball
@@ -178,13 +175,14 @@ namespace GravityGolf
         /// <summary>
         /// Draws the trajectory of a particle launched at velocity for pos over iteration frames
         /// </summary>
+        /// <param name="graphicsDevice">the GraphicsDevice to use</param>
         /// <param name="sb">the spritebatch with which to draw the path.  Begin() must have already been called</param>
         /// <param name="pos">the initial position of the particle</param>
         /// <param name="velocity">the initial velocity of the particle</param>
         /// <param name="iterations">the number of future frames over which to draw the trajectory</param>
-        private void DrawArc(SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations)
+        private void DrawArc(GraphicsDevice graphicsDevice ,SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations)
         {
-            Texture2D tex = new Texture2D(game.GraphicsDevice, 1, 1);
+            Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
             Vector2 nextPos;
             for(int i = 0; i<iterations; i++)

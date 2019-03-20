@@ -51,7 +51,7 @@ namespace GravityGolf
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
-            universe = new Universe(this);
+            universe = new Universe();
             startMenu = new StartMenu(Content, this);
             pauseMenu = new PauseMenu(Content, this);
 
@@ -154,7 +154,7 @@ namespace GravityGolf
                     startMenu.Draw(spriteBatch);
 					break;
 				case GameState.Playing:
-					universe.Draw(spriteBatch);
+					universe.Draw(graphics.GraphicsDevice, spriteBatch);
 					break;
 				case GameState.Paused:
                     pauseMenu.Draw(spriteBatch);
