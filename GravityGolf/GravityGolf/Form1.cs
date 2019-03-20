@@ -58,6 +58,10 @@ namespace GravityGolf
             LevelWriter.WriteLevel(textBox5.Text, x, y, planets);
 
             MessageBox.Show("level saved");
+
+            Program.level = textBox5.Text;
+            Program.toolUpdate = true;
+            Program.toolDraw = true;
         }
 
         //updates planets with new value for planetSize, makes sure unchecking will not result in nothing being checked

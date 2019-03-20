@@ -9,7 +9,8 @@ public enum GameState
 	Menu, 
 	Playing,
 	Paused,
-	Complete //player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
+	Complete,//player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
+    Tool 
 }
 
 namespace GravityGolf
@@ -57,6 +58,11 @@ namespace GravityGolf
 
             level = 0;
 			state = GameState.Menu;
+
+            if (Program.tool)
+            {
+                state = GameState.Tool;
+            }
 
             //creating an example level 1 using LevelWriter
             List<PlanetStruct> level1 = new List<PlanetStruct>();
@@ -132,6 +138,14 @@ namespace GravityGolf
 					break;
 				case GameState.Complete:
 					break;
+                case GameState.Tool:
+                    if (Program.toolUpdate)
+                    {
+                        universe.Clear();
+                        universe.LoadLevel(Program.level, Content);
+                        Program.toolUpdate = false;
+                    }
+                    break;
 			}
 
             previousState = currentState;
@@ -161,6 +175,16 @@ namespace GravityGolf
 					break;
 				case GameState.Complete:
 					break;
+                case GameState.Tool:
+                    if (Program.toolDraw)
+                    {
+                        if (!Program.toolUpdate)
+                        {
+                            universe.Draw(GraphicsDevice, spriteBatch);
+                            Program.toolDraw = false;
+                        }
+                    }
+                    break;
 			}
             
             spriteBatch.End();
