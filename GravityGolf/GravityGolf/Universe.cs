@@ -24,13 +24,20 @@ namespace GravityGolf
 
 		ButtonState oldState;
 
+        /// <summary>
+        /// Creates a new empty Universe
+        /// </summary>
         public Universe()
         {
 			click1 = null;
 			click2 = null;
         }
-        
-        //Gets gravitational force at position pos
+
+        /// <summary>
+        /// Returns the net gravitational force vector at position pos
+        /// </summary>
+        /// <param name="pos">The position at which to calculate the force</param>
+        /// <returns>the net gravitational force vector at position pos</returns>
         public Vector2 ForceAt(Vector2 pos)
         {
             //this method had a linear gravity that gets stronger the farther away you are
@@ -43,6 +50,10 @@ namespace GravityGolf
             return force;
         }
 
+        /// <summary>
+        /// Adds planet p to this Universe
+        /// </summary>
+        /// <param name="p">The planet to add.  Must not be null.</param>
         public void Add(Planet p)
         {
             planets.Add(p);
@@ -54,6 +65,11 @@ namespace GravityGolf
             ball = b;
         }
 
+        /// <summary>
+        /// Draws all of this Universe's content
+        /// </summary>
+        /// <param name="graphicsDevice">the GraphicsDevice to use to draw the assets</param>
+        /// <param name="sb">the SpriteBatch to use to draw the assets</param>
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb)
         {
             foreach (Planet planet in planets)
@@ -66,6 +82,9 @@ namespace GravityGolf
                 DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
         }
 
+        /// <summary>
+        /// Runs all necessary logic for player input and collision detection
+        /// </summary>
         public void Update() //Check win condition, move ball
         {
             //Need to make the hole point, check if ball is in that point, then win
@@ -116,13 +135,20 @@ namespace GravityGolf
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
 		}
 
+        /// <summary>
+        /// removes all planets from this Universe
+        /// </summary>
         public void Clear()
         {
             planets.Clear();
         }
 
-        //loads a level using a string for the .level
         //planets can be determined by a vector2, and a PlanetType enum. The enum will determine the mass, radius, and texture of the planet.
+        /// <summary>
+        /// Loads a level from a file
+        /// </summary>
+        /// <param name="level">The filename</param>
+        /// <param name="content">The content manager used to load the files</param>
         public void LoadLevel(string level, ContentManager content)
         {
             BinaryReader input = null;
@@ -165,11 +191,13 @@ namespace GravityGolf
             }
         }
 
+        /// <summary>
+        /// Returns whether the left mouse button was just hit
+        /// </summary>
+        /// <returns>whether the left mouse button was just hit</returns>
 		private bool FirstClick()
 		{
-			if (Mouse.GetState().LeftButton == ButtonState.Pressed && oldState == ButtonState.Released)
-				return true;
-			return false;
+            return Mouse.GetState().LeftButton == ButtonState.Pressed && oldState == ButtonState.Released;
 		}
 
         /// <summary>
