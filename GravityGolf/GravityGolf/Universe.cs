@@ -119,9 +119,10 @@ namespace GravityGolf
 				ball.Accelerate(G * ForceAt(ball.Center));
 			}
 
-            if(hole.InGoal(ball.Center) == true)
+            //Checking if ball in goal
+            if(hole.InGoal(ball) == true)
             {
-                
+                Console.WriteLine("IN GOAL");
             }
 			
             if(planetIntersect != planetIntersectChange) //this seems very wrong; why should stroke increase whenever I land on or leave a planet rather than when I hit the ball?

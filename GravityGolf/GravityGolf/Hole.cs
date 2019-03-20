@@ -24,17 +24,9 @@ namespace GravityGolf
             this.radius = 20;
         }
 
-        public bool InGoal(Vector2 ball)
+        public bool InGoal(Ball ball)
         {
-            //If ball is intersecting with hole, return true
-            if(Center.X + Radius <= ball.X && Center.X - Radius >= ball.X && Center.Y + Radius <= ball.Y && Center.Y - Radius >= ball.Y)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (ball.Center - center).Length() <= radius;
         }
 
         public Vector2 ForceAt(Vector2 p)
