@@ -15,6 +15,7 @@ namespace GravityGolf
     {
         List<Planet> planets = new List<Planet>();
         Ball ball;
+        Hole hole;
 
 		private Vector2? click1;
 		private Vector2? click2;
@@ -47,6 +48,10 @@ namespace GravityGolf
             {
                 force += planet.ForceAt(pos);
             }
+            if(hole.onPlanet == true)
+            {
+                force += hole.ForceAt(pos);
+            }
             return force;
         }
 
@@ -64,6 +69,10 @@ namespace GravityGolf
         {
             ball = b;
         }
+        public void SetHole(Hole h)
+        {
+            hole = h;
+        }
 
         /// <summary>
         /// Draws all of this Universe's content
@@ -77,9 +86,9 @@ namespace GravityGolf
                 planet.Draw(sb);
             }
             ball.Draw(sb);
-
+            hole.Draw(sb);
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
-                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click2 - (Vector2)click1), 50);
+                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50);
         }
 
         /// <summary>
@@ -115,15 +124,19 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released)
 				{
-                    //if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + LaunchStrength * ((Vector2)click2 - (Vector2)click1))) {
-                        ball.Accelerate(LaunchStrength * ((Vector2)click2 - (Vector2)click1));
-                    //}
+                    ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
 				}
 			}
 			else
 			{
 				ball.Accelerate(G * ForceAt(ball.Center));
 			}
+
+            //Checking if ball in goal
+            if(hole.InGoal(ball) == true)
+            {
+                Console.WriteLine("IN GOAL");
+            }
 			
             if(planetIntersect != planetIntersectChange) //this seems very wrong; why should stroke increase whenever I land on or leave a planet rather than when I hit the ball?
             {
@@ -159,6 +172,8 @@ namespace GravityGolf
 
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
+                //test hole
+                SetHole(new Hole(new Vector2(1200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
 
                 int num = input.ReadInt32();
 
