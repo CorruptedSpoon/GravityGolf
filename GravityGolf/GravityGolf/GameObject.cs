@@ -99,7 +99,7 @@ namespace GravityGolf
             int xCenter = (int)(graphicsDevice.Viewport.Width / 2+(X - graphicsDevice.Viewport.Width / 2) * scale);
             int yCenter = (int)(graphicsDevice.Viewport.Height / 2 + (Y - graphicsDevice.Viewport.Height / 2) * scale);
             sb.Draw(tex, 
-                new Rectangle(xCenter - radius, yCenter - radius, (int)(2*radius*scale), (int)(2*radius*scale)), 
+                new Rectangle(xCenter - (int)(radius*scale), yCenter - (int)(radius*scale), (int)(2*radius*scale), (int)(2*radius*scale)), 
                 null,
                 (Color)color,
                 0f,

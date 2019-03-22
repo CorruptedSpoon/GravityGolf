@@ -100,15 +100,16 @@ namespace GravityGolf
         /// <param name="sb">the SpriteBatch to use to draw the assets</param>
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb)
         {
-            float scale = 1;
-            if (ball.X > graphicsDevice.Viewport.Width)
-                scale = 1/(2*(ball.X - graphicsDevice.Viewport.Width) / graphicsDevice.Viewport.Width);
-            else if (ball.X < 0)
-                scale = 1/(-2 * ball.X / graphicsDevice.Viewport.Width);
-            if (ball.Y > graphicsDevice.Viewport.Height)
-                scale = Math.Max(scale, 1 / (2 * (ball.Y - graphicsDevice.Viewport.Height) / graphicsDevice.Viewport.Height));
-            else if (ball.Y < 0)
-                scale = Math.Max(scale, 1 / (-2 * ball.Y / graphicsDevice.Viewport.Height));
+            float xMultiplier = Math.Sign(ball.X - graphicsDevice.Viewport.Width / 2);
+            float yMultiplier = Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2);
+            float xForZoom = ball.X + xMultiplier * ball.Radius * 3;
+            float yForZoom = ball.Y + Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2) * ball.Radius * 3;
+
+            float scale = 1f;
+            if (xForZoom > graphicsDevice.Viewport.Width || xForZoom < 0 || yForZoom > graphicsDevice.Viewport.Height || yForZoom<0)
+                scale = Math.Min(graphicsDevice.Viewport.Width / (2*(xForZoom - graphicsDevice.Viewport.Width/2) * xMultiplier),
+                    graphicsDevice.Viewport.Height / (2 * (yForZoom - graphicsDevice.Viewport.Height / 2) * yMultiplier));
+
             foreach (Planet planet in planets)
             {
                 planet.Draw(graphicsDevice, sb, scale);
