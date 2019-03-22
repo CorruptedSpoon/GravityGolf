@@ -27,14 +27,20 @@ namespace GravityGolf
 
         private bool planetIntersect;
 
+        private float ballStartX;
+        private float ballStartY;
+
+        private GraphicsDevice graphics;
+
         /// <summary>
         /// Creates a new empty Universe
         /// </summary>
-        public Universe()
+        public Universe(GraphicsDevice graphics)
         {
 			click1 = null;
 			click2 = null;
             planetIntersect = false;
+            this.graphics = graphics;
         }
 
         /// <summary>
@@ -165,7 +171,7 @@ namespace GravityGolf
                 click1 = null;
                 click2 = null;
 			}
-
+            
             //Checking if ball in goal
             if(hole.InGoal(ball) == true)
             {
@@ -179,6 +185,7 @@ namespace GravityGolf
             planetIntersectChange = planetIntersect;
 
 			oldState = Mouse.GetState().LeftButton;
+
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
 		}
 
