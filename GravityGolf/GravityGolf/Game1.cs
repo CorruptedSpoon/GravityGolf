@@ -33,6 +33,9 @@ namespace GravityGolf
         KeyboardState currentState;
         KeyboardState previousState;
 
+        MouseState currentMouseState;
+        MouseState previousMouseState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -109,6 +112,7 @@ namespace GravityGolf
         protected override void Update(GameTime gameTime)
         {
             currentState = Keyboard.GetState();
+            currentMouseState = Mouse.GetState();
 
             //finite state maching works as follows:
             //from menu, space to start, esc to close program
@@ -118,7 +122,7 @@ namespace GravityGolf
 			switch (state)
 			{
 				case GameState.Menu:
-                    startMenu.Update();
+                    startMenu.Update(currentMouseState, previousMouseState);
                     if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
                         state = GameState.Playing;
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
@@ -149,6 +153,7 @@ namespace GravityGolf
 			}
 
             previousState = currentState;
+            previousMouseState = currentMouseState;
 
             base.Update(gameTime);
         }

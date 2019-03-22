@@ -9,39 +9,62 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GravityGolf
 {
-    abstract class Button
+    class Button
     {
-        protected int x;
-        protected int y;
+        protected Rectangle rect;
         protected Texture2D normalTexture;
         protected Texture2D hoverTexture; //if we want to do it, we can change it in the universe class
         protected bool prevMouseDown = false;
+        protected MouseState currentState;
+        protected MouseState previousState;
 
-        public bool mouseHover(MouseState mouse)
+        public int X {
+            get { return rect.X; }
+        }
+
+        public int Y { 
+            get { return rect.Y; }
+        }
+
+        public Button(Rectangle rect, Texture2D normalTexture, Texture2D hoverTexture) { 
+            this.rect = rect;
+            this.normalTexture = normalTexture;
+            this.hoverTexture = hoverTexture;
+        }
+
+        private bool mouseHover(MouseState mouse)
         {
-            if(mouse.X < x + normalTexture.Width && mouse.X > x && mouse.Y < y + normalTexture.Height && mouse.Y > y)
+            if(mouse.X < rect.X + normalTexture.Width && mouse.X > rect.X && mouse.Y < rect.Y + normalTexture.Height && mouse.Y > rect.Y)
+            {
+                return true;
+                Console.WriteLine("hover");
+            }
+            return false;
+        }
+
+        private bool isClick(MouseState cur, MouseState pre)
+        {
+            if(mouseHover(cur) && cur.LeftButton == ButtonState.Released && pre.LeftButton == ButtonState.Pressed)
             {
                 return true;
             }
             return false;
         }
 
-        public bool isClick(MouseState mouse)
-        {
-            
-            if(mouseHover(mouse) && mouse.LeftButton == ButtonState.Released && prevMouseDown == true)
-            {
-                return true;
+        public void Draw(SpriteBatch sb, MouseState mouse){
+            if(mouseHover(mouse)){
+                sb.Draw(hoverTexture, rect, Color.White);
             }
-            if (mouse.LeftButton == ButtonState.Pressed)
-            {
-                prevMouseDown = true;
+            else{ 
+                sb.Draw(normalTexture, rect, Color.White);
             }
-            else
-            {
-                prevMouseDown = false;
+        }
+
+        public void Update(MouseState cur, MouseState pre){
+            mouseHover(cur);
+            if(isClick(cur, pre)) {
+                Console.WriteLine("click!");
             }
-            return false;
         }
     }
 }
