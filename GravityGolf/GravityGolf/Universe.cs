@@ -109,12 +109,22 @@ namespace GravityGolf
         /// <param name="sb">the SpriteBatch to use to draw the assets</param>
         public void Draw(GraphicsDevice graphicsDevice, SpriteBatch sb)
         {
+            float xMultiplier = Math.Sign(ball.X - graphicsDevice.Viewport.Width / 2);
+            float yMultiplier = Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2);
+            float xForZoom = ball.X + xMultiplier * ball.Radius * 3;
+            float yForZoom = ball.Y + Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2) * ball.Radius * 3;
+
+            float scale = 1f;
+            if (xForZoom > graphicsDevice.Viewport.Width || xForZoom < 0 || yForZoom > graphicsDevice.Viewport.Height || yForZoom<0)
+                scale = Math.Min(graphicsDevice.Viewport.Width / (2*(xForZoom - graphicsDevice.Viewport.Width/2) * xMultiplier),
+                    graphicsDevice.Viewport.Height / (2 * (yForZoom - graphicsDevice.Viewport.Height / 2) * yMultiplier));
+
             foreach (Planet planet in planets)
             {
-                planet.Draw(sb);
+                planet.Draw(graphicsDevice, sb, scale);
             }
-            ball.Draw(sb);
-            hole.Draw(sb);
+            ball.Draw(graphicsDevice, sb, scale);
+            hole.Draw(graphicsDevice, sb, scale);
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
                 DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
                     LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
