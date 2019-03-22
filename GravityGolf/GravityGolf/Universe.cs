@@ -51,11 +51,30 @@ namespace GravityGolf
             {
                 force += planet.ForceAt(pos);
             }
-            if(hole.onPlanet == true)
+            if(hole.onPlanet == false)
             {
                 force += hole.ForceAt(pos);
             }
             return force;
+        }
+
+        /// <summary>
+        /// returns the escape velocity when travelling perpendicular to the center of the grvitational system at position p 
+        /// </summary>
+        /// <param name="pos">the position vector at which to calculate the escape velocity</param>
+        /// <returns>the escape velocity at point p</returns>
+        private float EscapeVelocityAt(Vector2 pos)
+        {
+            Vector2 massPos = new Vector2(0, 0); //sum of products of positions and masses
+            float mass = 0;
+            foreach(Planet p in planets)
+            {
+                Vector2 displacement = pos - p.Center;
+                massPos = p.Mass * displacement;
+                mass += p.Mass;
+            }
+            Vector2 center = massPos / mass;
+            return (float)Math.Sqrt(2 * G * mass / center.Length());
         }
 
         /// <summary>
@@ -91,7 +110,8 @@ namespace GravityGolf
             ball.Draw(sb);
             hole.Draw(sb);
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
-                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50);
+                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
+                    LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
         }
 
         /// <summary>
@@ -187,7 +207,7 @@ namespace GravityGolf
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
                 //test hole
-                SetHole(new Hole(new Vector2(1200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
+                SetHole(new Hole(new Vector2(200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
 
                 int num = input.ReadInt32();
 
@@ -238,7 +258,8 @@ namespace GravityGolf
         /// <param name="pos">the initial position of the particle</param>
         /// <param name="velocity">the initial velocity of the particle</param>
         /// <param name="iterations">the number of future frames over which to draw the trajectory</param>
-        private void DrawArc(GraphicsDevice graphicsDevice ,SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations)
+        /// <param name="color">the color in which to draw the arc</param>
+        private void DrawArc(GraphicsDevice graphicsDevice ,SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations, Color? color = null)
         {
             Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
@@ -250,7 +271,7 @@ namespace GravityGolf
                 sb.Draw(tex, 
                     pos, 
                     null, 
-                    Color.White, 
+                    color==null?Color.White:(Color)color, 
                     (float) Math.Atan2((nextPos - pos).Y, (nextPos - pos).X), 
                     new Vector2(0, 0), 
                     new Vector2((nextPos - pos).Length(), 1), 

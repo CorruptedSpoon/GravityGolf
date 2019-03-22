@@ -12,12 +12,10 @@ namespace GravityGolf {
     class StartMenu {
         Texture2D logo;
         Texture2D buttonPlay;
-        Game1 game;
 
-        public StartMenu(ContentManager content, Game1 game) {
+        public StartMenu(ContentManager content) {
             logo = content.Load<Texture2D>("Logo");
             buttonPlay = content.Load<Texture2D>("ButtonPlay");
-            this.game = game;
         }
 
         public void Draw(SpriteBatch sb) {
