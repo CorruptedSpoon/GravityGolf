@@ -56,6 +56,9 @@
 /processorParam:TextureFormat=Color
 /build:ButtonPlay.png
 
+#begin level2.level
+/copy:level2.level
+
 #begin Logo.png
 /importer:TextureImporter
 /processor:TextureProcessor
