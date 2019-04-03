@@ -17,6 +17,8 @@ namespace GravityGolf
         Ball ball;
         Hole hole;
 
+        private int levelNum;
+
 		private Vector2? click1;
 		private Vector2? click2;
 
@@ -144,7 +146,10 @@ namespace GravityGolf
         /// </summary>
         public void Update() //Check win condition, move ball
         {
-            //Need to make the hole point, check if ball is in that point, then win
+            if ((ball.Center-hole.Center).Length()<=hole.Radius) //when the ball goes in the hole
+            {
+                LoadLevel("level" + (levelNum+1) + ".level");
+            }
             
             bool planetIntersectChange = false;
             Planet touching = null;
@@ -219,10 +224,10 @@ namespace GravityGolf
         /// </summary>
         /// <param name="level">The filename</param>
         /// <param name="content">The content manager used to load the files</param>
-        public void LoadLevel(string level, ContentManager content)
+        public void LoadLevel(string level)
         {
             strokes = 0;
-
+            levelNum = int.Parse(level.Substring(5, 1));
             BinaryReader input = null;
             try
             {
@@ -257,6 +262,10 @@ namespace GravityGolf
                             break;
                     }
                 }
+            }
+            catch
+            {
+                Console.Write("NO LEVELS TO LOAD");
             }
             finally
             {
@@ -304,5 +313,7 @@ namespace GravityGolf
                 pos = nextPos;
             }
         }
+
+        
     }
 }
