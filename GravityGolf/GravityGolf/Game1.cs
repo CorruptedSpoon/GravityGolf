@@ -55,7 +55,7 @@ namespace GravityGolf
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
-            universe = new Universe(GraphicsDevice);
+            universe = new Universe(GraphicsDevice, Content);
             startMenu = new StartMenu(Content);
             pauseMenu = new PauseMenu(Content);
 
@@ -148,7 +148,7 @@ namespace GravityGolf
                     if (Program.toolUpdate)
                     {
                         universe.Clear();
-                        universe.LoadLevel(Program.level, Content);
+                        universe.LoadLevel(Program.level);
                         Program.toolUpdate = false;
                     }
                     break;
@@ -205,7 +205,7 @@ namespace GravityGolf
             level++;
             universe.Clear();
 
-            universe.LoadLevel("level1.level", Content);
+            universe.LoadLevel("level1.level");
         }
     }
 }

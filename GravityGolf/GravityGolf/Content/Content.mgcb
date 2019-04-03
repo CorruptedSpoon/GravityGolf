@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Ariel48.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Ariel48.spritefont;Font.spritefont
+
 #begin ButtonExit.png
 /importer:TextureImporter
 /processor:TextureProcessor
