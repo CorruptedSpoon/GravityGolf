@@ -15,6 +15,7 @@ namespace GravityGolf {
         MouseState currentState;
         MouseState previousState;
         Button playButton;
+        public bool play = false;
 
         public StartMenu(ContentManager content) {
             logo = content.Load<Texture2D>("Logo");
@@ -31,6 +32,14 @@ namespace GravityGolf {
             currentState = current;
             previousState = previous;
             playButton.Update(current, previous);
+            if (playButton.IsClick(current, previous))
+            {
+                play = true;
+            }
+            else
+            {
+                play = false;
+            }
         }
         public void Clear() {
 

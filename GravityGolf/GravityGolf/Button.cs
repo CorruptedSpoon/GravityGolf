@@ -32,17 +32,16 @@ namespace GravityGolf
             this.hoverTexture = hoverTexture;
         }
 
-        private bool mouseHover(MouseState mouse)
+        private bool mouseHover(MouseState mouse) //Checks if mouse is hovering - potentially for hover texture
         {
             if(mouse.X < rect.X + normalTexture.Width && mouse.X > rect.X && mouse.Y < rect.Y + normalTexture.Height && mouse.Y > rect.Y)
             {
                 return true;
-                Console.WriteLine("hover");
             }
             return false;
         }
 
-        private bool isClick(MouseState cur, MouseState pre)
+        public bool IsClick(MouseState cur, MouseState pre) //Checks click, returns true once, usable in update
         {
             if(mouseHover(cur) && cur.LeftButton == ButtonState.Released && pre.LeftButton == ButtonState.Pressed)
             {
@@ -62,8 +61,8 @@ namespace GravityGolf
 
         public void Update(MouseState cur, MouseState pre){
             mouseHover(cur);
-            if(isClick(cur, pre)) {
-                Console.WriteLine("click!");
+            if(IsClick(cur, pre)) {
+                //do something on click
             }
         }
     }

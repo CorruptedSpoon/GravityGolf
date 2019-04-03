@@ -123,7 +123,7 @@ namespace GravityGolf
 			{
 				case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))||startMenu.play == true)
                         state = GameState.Playing;
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
                         Exit();
