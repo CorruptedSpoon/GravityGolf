@@ -30,17 +30,24 @@ namespace GravityGolf
         private float ballStartX;
         private float ballStartY;
 
+        private int strokes;
+
         private GraphicsDevice graphics;
+
+        private ContentManager content;
+        private SpriteFont font;
 
         /// <summary>
         /// Creates a new empty Universe
         /// </summary>
-        public Universe(GraphicsDevice graphics)
+        public Universe(GraphicsDevice graphics, ContentManager content)
         {
 			click1 = null;
 			click2 = null;
             planetIntersect = false;
             this.graphics = graphics;
+            this.content = content;
+            font = this.content.Load<SpriteFont>("font"); 
         }
 
         /// <summary>
@@ -128,6 +135,8 @@ namespace GravityGolf
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
                 DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
                     LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
+
+            sb.DrawString(font, "Strokes: " + strokes, new Vector2(30, 30), Color.White);
         }
 
         /// <summary>
@@ -169,6 +178,7 @@ namespace GravityGolf
 				{
                     if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + (LaunchStrength * ((Vector2)click1 - (Vector2)click2)))) {
                         ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
+                        strokes++;
                     }
                     
 				}
@@ -188,10 +198,6 @@ namespace GravityGolf
                 Console.WriteLine("IN GOAL");
             }
 			
-            if(planetIntersect != planetIntersectChange) //this seems very wrong; why should stroke increase whenever I land on or leave a planet rather than when I hit the ball?
-            {
-                //Increase stroke
-            }
             planetIntersectChange = planetIntersect;
 
 			oldState = Mouse.GetState().LeftButton;
@@ -215,6 +221,8 @@ namespace GravityGolf
         /// <param name="content">The content manager used to load the files</param>
         public void LoadLevel(string level, ContentManager content)
         {
+            strokes = 0;
+
             BinaryReader input = null;
             try
             {

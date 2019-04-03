@@ -55,7 +55,7 @@ namespace GravityGolf
             graphics.PreferredBackBufferHeight = 900;
             graphics.ApplyChanges();
 
-            universe = new Universe(GraphicsDevice);
+            universe = new Universe(GraphicsDevice, Content);
             startMenu = new StartMenu(Content);
             pauseMenu = new PauseMenu(Content);
 
