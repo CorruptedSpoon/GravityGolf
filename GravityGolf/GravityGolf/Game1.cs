@@ -139,6 +139,8 @@ namespace GravityGolf
                         state = GameState.Playing;
                     else if ((currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape)) || pauseMenu.menuClick)
                         state = GameState.Menu; //When go from in game -> pause -> menu -> play, starts off in the middle of the stroke, so we should have a reset level method called here
+                    else if (pauseMenu.exitClick)
+                        Exit();                   
 					break;
 				case GameState.Complete:
 					break;
