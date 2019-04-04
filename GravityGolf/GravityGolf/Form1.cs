@@ -139,6 +139,7 @@ namespace GravityGolf
         private void pictureBox1_Click(object sender, EventArgs e)
         {}
 
+        //previews level using picture boxes
         private void button3_Click(object sender, EventArgs e)
         {
             if (ran)
@@ -169,13 +170,13 @@ namespace GravityGolf
             ballPic.BackgroundImage = Properties.Resources.red;
             ballPic.BackgroundImageLayout = ImageLayout.Stretch;
             ballPic.Size = new Size(6, 6);
-            ballPic.Location = new Point(x+80, y+220);
+            ballPic.Location = new Point(x/4+80, y/4+220);
             Controls.Add(ballPic);
 
             holePic.BackgroundImage = Properties.Resources.red;
             holePic.BackgroundImageLayout = ImageLayout.Stretch;
             holePic.Size = new Size(6, 6);
-            holePic.Location = new Point(hx+80, hy+220);
+            holePic.Location = new Point(hx/4+80, hy/4+220);
             Controls.Add(holePic);
 
             planetPic.Clear();
