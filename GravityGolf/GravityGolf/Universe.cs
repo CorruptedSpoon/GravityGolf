@@ -227,7 +227,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            levelNum = int.Parse(level.Substring(5, 1));
+            levelNum = int.Parse(level.Substring(12, 1));
             BinaryReader input = null;
             try
             {
@@ -237,7 +237,7 @@ namespace GravityGolf
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
                 //test hole
-                SetHole(new Hole(new Vector2(200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
+                SetHole(new Hole(new Vector2(input.ReadInt32(), input.ReadInt32()), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
 
                 int num = input.ReadInt32();
 
