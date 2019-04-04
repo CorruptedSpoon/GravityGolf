@@ -176,7 +176,7 @@ namespace GravityGolf
             }
             if (planetIntersect) //iff in a planet
             {
-                ball.Accelerate(-ball.Direction); //apply normal force
+                //ball.Accelerate(-ball.Direction); //apply normal force
 				//----player controls----
 				if (FirstClick())
 				{
@@ -233,7 +233,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            levelNum = int.Parse(level.Substring(12, 1));
+            //levelNum = int.Parse(level.Substring(12, 1)); <--- this is causing errors
             BinaryReader input = null;
             try
             {
