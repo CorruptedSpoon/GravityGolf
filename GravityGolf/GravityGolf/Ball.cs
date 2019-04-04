@@ -10,13 +10,7 @@ namespace GravityGolf {
     class Ball : GameObject {
 
         // -----Fields-----
-        private Vector2 direction;
-
-        // -----Properties-----
-        /// <summary>
-        /// get direction vector of the ball
-        /// </summary>
-        public Vector2 Direction { get { return direction; } }
+        public Vector2 direction;
 
         // -----Constructor-----
 
@@ -44,6 +38,10 @@ namespace GravityGolf {
             float distance = planet.Radius - Vector2.Distance(planet.Center, center);
             Vector2 toMove = planet.UnitNormalAt(center) * (distance + radius);
             center += toMove;
+        }
+        public void Teleport(int x, int y) {
+            center.X = x;
+            center.Y = y;
         }
     }
 }
