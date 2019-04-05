@@ -10,6 +10,7 @@ public enum GameState
 	Playing,
 	Paused,
 	Complete,//player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
+    LevelSelect,
     Tool 
 }
 
@@ -26,6 +27,7 @@ namespace GravityGolf
         Universe universe;
         StartMenu startMenu;
         PauseMenu pauseMenu;
+        LevelMenu levelMenu;
         int level;
         int numStrokes;
 		public GameState state;
@@ -58,6 +60,7 @@ namespace GravityGolf
             universe = new Universe(GraphicsDevice, Content);
             startMenu = new StartMenu(Content);
             pauseMenu = new PauseMenu(Content);
+            levelMenu = new LevelMenu(Content);
 
             level = 0;
 			state = GameState.Menu;
@@ -123,11 +126,19 @@ namespace GravityGolf
 			{
 				case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))||startMenu.play == true)
+                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space)) || startMenu.play == true)
                         state = GameState.Playing;
+                    else if (startMenu.level == true)
+                        state = GameState.LevelSelect;
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
                         Exit();
 					break;
+                case GameState.LevelSelect:
+                    if(levelMenu.menuClick == true)
+                    {
+                        state = GameState.Menu;
+                    }
+                    break;
 				case GameState.Playing:
 					universe.Update();
                     if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
@@ -174,6 +185,9 @@ namespace GravityGolf
 				case GameState.Menu:
                     startMenu.Draw(spriteBatch);
 					break;
+                case GameState.LevelSelect:
+                    levelMenu.Draw(spriteBatch);
+                    break;
 				case GameState.Playing:
 					universe.Draw(graphics.GraphicsDevice, spriteBatch);
 					break;

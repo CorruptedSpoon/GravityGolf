@@ -14,17 +14,24 @@ namespace GravityGolf
     {
         MouseState currentState;
 
+        Button menuButton;
         List<Button> levelButtons = new List<Button>();
+        public bool menuClick = false;
         List<bool> levelButtonsClick = new List<bool>();
 
         public LevelMenu(ContentManager content)
         {
-            levelButtons.Add(new Button(new Rectangle(80, 450, 256, 196), content.Load<Texture2D>("level1icon"), content.Load<Texture2D>("level1icon")));
-            levelButtons.Add(new Button(new Rectangle(376, 450, 256, 196), content.Load<Texture2D>("level1icon"), content.Load<Texture2D>("level1icon")));
-            levelButtons.Add(new Button(new Rectangle(672, 450, 256, 196), content.Load<Texture2D>("level1icon"), content.Load<Texture2D>("level1icon")));
-            levelButtons.Add(new Button(new Rectangle(968, 450, 256, 196), content.Load<Texture2D>("level1icon"), content.Load<Texture2D>("level1icon")));
-            levelButtons.Add(new Button(new Rectangle(1264, 450, 256, 196), content.Load<Texture2D>("level1icon"), content.Load<Texture2D>("level1icon")));
-            levelButtonsClick.Add(false);
+            levelButtons.Add(new Button(new Rectangle(80, 450, 256, 196), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonMenu")));
+            levelButtons.Add(new Button(new Rectangle(376, 450, 256, 196), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonMenu")));
+            levelButtons.Add(new Button(new Rectangle(672, 450, 256, 196), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonMenu")));
+            levelButtons.Add(new Button(new Rectangle(968, 450, 256, 196), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonMenu")));
+            levelButtons.Add(new Button(new Rectangle(1264, 450, 256, 196), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonMenu")));
+            foreach(Button button in levelButtons) {
+                levelButtonsClick.Add(false);
+            }
+
+            menuButton = new Button(new Rectangle(0, 0, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenu"));
+
         }
 
         public void Draw(SpriteBatch sb)
@@ -33,6 +40,7 @@ namespace GravityGolf
             {
                 button.Draw(sb, currentState);
             }
+            menuButton.Draw(sb, currentState);
         }
 
         public void Update(MouseState cur, MouseState pre)
@@ -47,6 +55,12 @@ namespace GravityGolf
                 else
                     levelButtonsClick[i] = false;
             }
+
+            menuButton.Update(cur, pre);
+            if (menuButton.IsClick(cur, pre))
+                menuClick = true;
+            else
+                menuClick = false;
         }
     }
 }

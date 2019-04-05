@@ -15,18 +15,22 @@ namespace GravityGolf {
         MouseState currentState;
         MouseState previousState;
         Button playButton;
+        Button levelButton;
         public bool play = false;
+        public bool level = false;
 
         public StartMenu(ContentManager content) {
             logo = content.Load<Texture2D>("Logo");
             buttonPlay = content.Load<Texture2D>("ButtonPlay");
             playButton = new Button(new Rectangle((800 - 128), 500, 256, 128), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonPlay"));
+            levelButton = new Button(new Rectangle((800 - 128), 500 + 128 + 40, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenu"));
         }
 
         public void Draw(SpriteBatch sb) {
             sb.Draw(logo, new Rectangle((800 - 256), 0, 512, 256), Color.White);
             //sb.Draw(buttonPlay, new Rectangle((800 - 128), 500, 256, 128), Color.White);
             playButton.Draw(sb, currentState);
+            levelButton.Draw(sb, currentState);
         }
         public void Update(MouseState current, MouseState previous) {
             currentState = current;
@@ -39,6 +43,15 @@ namespace GravityGolf {
             else
             {
                 play = false;
+            }
+            levelButton.Update(current, previous);
+            if (levelButton.IsClick(current, previous))
+            {
+                level = true;
+            }
+            else
+            {
+                level = false;
             }
         }
         public void Clear() {
