@@ -14,8 +14,8 @@ namespace GravityGolf
     class Universe
     {
         List<Planet> planets = new List<Planet>();
-        Ball ball;
-        Hole hole;
+        public Ball ball;
+        public Hole hole;
 
         private int levelNum;
 
@@ -39,6 +39,12 @@ namespace GravityGolf
         private ContentManager content;
         private SpriteFont font;
 
+        //private Game1 game1;
+
+        public int Strokes {
+            get { return strokes; }
+        }
+
         /// <summary>
         /// Creates a new empty Universe
         /// </summary>
@@ -49,7 +55,8 @@ namespace GravityGolf
             planetIntersect = false;
             this.graphics = graphics;
             this.content = content;
-            font = this.content.Load<SpriteFont>("font"); 
+            font = this.content.Load<SpriteFont>("font");
+            //game1 = new Game1();
         }
 
         /// <summary>
@@ -169,7 +176,7 @@ namespace GravityGolf
             }
             if (planetIntersect) //iff in a planet
             {
-                ball.Accelerate(-ball.Direction); //apply normal force
+                //ball.Accelerate(-ball.Direction); //apply normal force
 				//----player controls----
 				if (FirstClick())
 				{
@@ -185,7 +192,6 @@ namespace GravityGolf
                         ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
                         strokes++;
                     }
-                    
 				}
 			}
 			else
@@ -197,11 +203,11 @@ namespace GravityGolf
                 click2 = null;
 			}
             
-            //Checking if ball in goal
-            if(hole.InGoal(ball) == true)
-            {
-                Console.WriteLine("IN GOAL");
-            }
+            ////Checking if ball in goal
+            //if(hole.InGoal(ball) == true)
+            //{
+            //    game1.state = GameState.LevelComplete;
+            //}
 			
             planetIntersectChange = planetIntersect;
 
@@ -227,7 +233,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            levelNum = int.Parse(level.Substring(5, 1));
+            //levelNum = int.Parse(level.Substring(12, 1)); <--this is causing errors
             BinaryReader input = null;
             try
             {
@@ -237,7 +243,7 @@ namespace GravityGolf
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
                 //test hole
-                SetHole(new Hole(new Vector2(200, 800), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
+                SetHole(new Hole(new Vector2(input.ReadInt32(), input.ReadInt32()), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
 
                 int num = input.ReadInt32();
 

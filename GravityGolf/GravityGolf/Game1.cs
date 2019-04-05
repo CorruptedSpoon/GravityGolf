@@ -9,6 +9,7 @@ public enum GameState
 	Menu, 
 	Playing,
 	Paused,
+    LevelComplete,
 	Complete,//player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
     LevelSelect,
     Tool 
@@ -28,6 +29,7 @@ namespace GravityGolf
         StartMenu startMenu;
         PauseMenu pauseMenu;
         LevelMenu levelMenu;
+        LevelComplete levelComplete;
         int level;
         int numStrokes;
 		public GameState state;
@@ -61,22 +63,18 @@ namespace GravityGolf
             startMenu = new StartMenu(Content);
             pauseMenu = new PauseMenu(Content);
             levelMenu = new LevelMenu(Content);
+            levelComplete = new LevelComplete(Content, universe.Strokes);
 
             level = 0;
 			state = GameState.Menu;
 
-            if (Program.tool)
-            {
-                state = GameState.Tool;
-            }
-
-            //creating an example level 1 using LevelWriter
+            /*creating an example level 1 using LevelWriter
             List<PlanetStruct> level1 = new List<PlanetStruct>();
             level1.Add(new PlanetStruct(220, 200, PlanetType.medium));
             level1.Add(new PlanetStruct(1100, 300, PlanetType.small));
             level1.Add(new PlanetStruct(700, 500, PlanetType.big));
             LevelWriter.WriteLevel("level1", 1200, 800, level1);
-            
+            */
             NextLevel();
 
             IsMouseVisible = true;
@@ -141,6 +139,9 @@ namespace GravityGolf
                     break;
 				case GameState.Playing:
 					universe.Update();
+                    if (universe.hole.InGoal(universe.ball)) {
+                        state = GameState.LevelComplete;
+                    }
                     if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
                         state = GameState.Paused;
 					break;
@@ -153,16 +154,16 @@ namespace GravityGolf
                     else if (pauseMenu.exitClick)
                         Exit();                   
 					break;
+                case GameState.LevelComplete:
+                    levelComplete.Update(currentMouseState, previousMouseState);
+                    if (levelComplete.playClick) {
+                        state = GameState.Playing;
+                    }
+                    else if (levelComplete.menuClick)
+                        state = GameState.Menu;
+                    break;
 				case GameState.Complete:
 					break;
-                case GameState.Tool:
-                    if (Program.toolUpdate)
-                    {
-                        universe.Clear();
-                        universe.LoadLevel(Program.level);
-                        Program.toolUpdate = false;
-                    }
-                    break;
 			}
 
             previousState = currentState;
@@ -194,18 +195,11 @@ namespace GravityGolf
 				case GameState.Paused:
                     pauseMenu.Draw(spriteBatch);
 					break;
+                case GameState.LevelComplete:
+                    levelComplete.Draw(spriteBatch);
+                    break;
 				case GameState.Complete:
 					break;
-                case GameState.Tool:
-                    if (Program.toolDraw)
-                    {
-                        if (!Program.toolUpdate)
-                        {
-                            universe.Draw(GraphicsDevice, spriteBatch);
-                            Program.toolDraw = false;
-                        }
-                    }
-                    break;
 			}
             
             spriteBatch.End();
@@ -219,7 +213,7 @@ namespace GravityGolf
             level++;
             universe.Clear();
 
-            universe.LoadLevel("level1.level");
+            universe.LoadLevel("levels\\level1.level");
         }
     }
 }
