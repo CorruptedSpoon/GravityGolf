@@ -11,8 +11,7 @@ public enum GameState
 	Paused,
     LevelComplete,
 	Complete,//player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
-    LevelSelect,
-    Tool 
+    LevelSelect
 }
 
 namespace GravityGolf
