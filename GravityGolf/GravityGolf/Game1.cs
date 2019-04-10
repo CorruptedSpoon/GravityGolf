@@ -131,6 +131,7 @@ namespace GravityGolf
                         Exit();
 					break;
                 case GameState.LevelSelect:
+                    levelMenu.Update(currentMouseState, previousMouseState);
                     if(levelMenu.menuClick == true)
                     {
                         state = GameState.Menu;
