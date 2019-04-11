@@ -170,13 +170,13 @@ namespace GravityGolf
             ballPic.BackgroundImage = Properties.Resources.red;
             ballPic.BackgroundImageLayout = ImageLayout.Stretch;
             ballPic.Size = new Size(6, 6);
-            ballPic.Location = new Point(x/4+80, y/4+220);
+            ballPic.Location = new Point(x/4+80-3, y/4+220-3);
             Controls.Add(ballPic);
 
             holePic.BackgroundImage = Properties.Resources.red;
             holePic.BackgroundImageLayout = ImageLayout.Stretch;
             holePic.Size = new Size(6, 6);
-            holePic.Location = new Point(hx/4+80, hy/4+220);
+            holePic.Location = new Point(hx/4+80-3, hy/4+220-3);
             Controls.Add(holePic);
 
             planetPic.Clear();
@@ -198,7 +198,7 @@ namespace GravityGolf
                         break;
                 }
 
-                planetPic[i].Location = new Point(planets[i].x / 4 + 80, planets[i].y / 4 + 220);
+                planetPic[i].Location = new Point(planets[i].x / 4 + 80 - planetPic[i].Size.Height / 2, planets[i].y / 4 + 220 - planetPic[i].Size.Height / 2);
                 Controls.Add(planetPic[i]);
             }
 

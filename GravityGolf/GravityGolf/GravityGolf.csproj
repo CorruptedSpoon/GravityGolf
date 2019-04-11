@@ -83,6 +83,9 @@
     <None Include="Content\PlanetSmall.png" />
     <None Include="Content\red.png" />
     <Content Include="Icon.ico" />
+    <None Include="levels\level1.level">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
