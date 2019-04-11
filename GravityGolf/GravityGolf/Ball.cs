@@ -12,6 +12,8 @@ namespace GravityGolf {
         // -----Fields-----
         public Vector2 direction;
 
+
+
         // -----Constructor-----
 
         /// <summary>

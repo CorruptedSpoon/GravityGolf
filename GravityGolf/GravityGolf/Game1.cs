@@ -123,7 +123,7 @@ namespace GravityGolf
 			{
 				case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space)) || startMenu.play == true)
+                    if (startMenu.play == true)
                         state = GameState.Playing;
                     else if (startMenu.level == true)
                         state = GameState.LevelSelect;
@@ -142,15 +142,17 @@ namespace GravityGolf
                     if (universe.hole.InGoal(universe.ball)) {
                         state = GameState.LevelComplete;
                     }
-                    if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+                    if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
                         state = GameState.Paused;
 					break;
 				case GameState.Paused:
                     pauseMenu.Update(currentMouseState, previousMouseState);
-                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space)) || pauseMenu.playClick)
+                    if (pauseMenu.playClick)
                         state = GameState.Playing;
-                    else if ((currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape)) || pauseMenu.menuClick)
-                        state = GameState.Menu; //When go from in game -> pause -> menu -> play, starts off in the middle of the stroke, so we should have a reset level method called here
+                    else if (pauseMenu.menuClick) {
+                        universe.LoadLevel("level1.level");
+                        state = GameState.Menu;
+                    }
                     else if (pauseMenu.exitClick)
                         Exit();                   
 					break;

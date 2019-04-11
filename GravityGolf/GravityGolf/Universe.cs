@@ -176,7 +176,7 @@ namespace GravityGolf
             }
             if (planetIntersect) //iff in a planet
             {
-                //ball.Accelerate(-ball.Direction); //apply normal force
+                ball.Accelerate(-ball.direction); //apply normal force
 				//----player controls----
 				if (FirstClick())
 				{
