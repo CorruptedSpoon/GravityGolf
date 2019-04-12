@@ -136,6 +136,10 @@ namespace GravityGolf
                     {
                         state = GameState.Menu;
                     }
+                    else if (levelMenu.levelButtonsClick[0])
+                    {
+                        state = GameState.Playing;
+                    }
                     break;
 				case GameState.Playing:
 					universe.Update();
