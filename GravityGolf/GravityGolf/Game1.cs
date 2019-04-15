@@ -39,6 +39,8 @@ namespace GravityGolf
         MouseState currentMouseState;
         MouseState previousMouseState;
 
+        Texture2D background;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -91,7 +93,7 @@ namespace GravityGolf
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            background = Content.Load<Texture2D>("Background");
         }
 
         /// <summary>
@@ -187,6 +189,7 @@ namespace GravityGolf
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+            spriteBatch.Draw(background,new Rectangle(0,0,graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight),Color.White);
 			switch (state)
 			{
 				case GameState.Menu:
