@@ -9,8 +9,9 @@ public enum GameState
 	Menu, 
 	Playing,
 	Paused,
+    LevelComplete,
 	Complete,//player completes all holes; menu gives stats (distinct from Menu state, aka not a submenu)
-    Tool 
+    LevelSelect
 }
 
 namespace GravityGolf
@@ -26,6 +27,8 @@ namespace GravityGolf
         Universe universe;
         StartMenu startMenu;
         PauseMenu pauseMenu;
+        LevelMenu levelMenu;
+        LevelComplete levelComplete;
         int level;
         int numStrokes;
 		public GameState state;
@@ -58,22 +61,19 @@ namespace GravityGolf
             universe = new Universe(GraphicsDevice, Content);
             startMenu = new StartMenu(Content);
             pauseMenu = new PauseMenu(Content);
+            levelMenu = new LevelMenu(Content);
+            levelComplete = new LevelComplete(Content, universe.Strokes);
 
             level = 0;
 			state = GameState.Menu;
 
-            if (Program.tool)
-            {
-                state = GameState.Tool;
-            }
-
-            //creating an example level 1 using LevelWriter
+            /*creating an example level 1 using LevelWriter
             List<PlanetStruct> level1 = new List<PlanetStruct>();
             level1.Add(new PlanetStruct(220, 200, PlanetType.medium));
             level1.Add(new PlanetStruct(1100, 300, PlanetType.small));
             level1.Add(new PlanetStruct(700, 500, PlanetType.big));
             LevelWriter.WriteLevel("level1", 1200, 800, level1);
-            
+            */
             NextLevel();
 
             IsMouseVisible = true;
@@ -123,33 +123,53 @@ namespace GravityGolf
 			{
 				case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))||startMenu.play == true)
+                    if (startMenu.play == true)
                         state = GameState.Playing;
+                    else if (startMenu.level == true)
+                        state = GameState.LevelSelect;
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
                         Exit();
 					break;
+                case GameState.LevelSelect:
+                    levelMenu.Update(currentMouseState, previousMouseState);
+                    if(levelMenu.menuClick == true)
+                    {
+                        state = GameState.Menu;
+                    }
+                    else if (levelMenu.levelButtonsClick[0])
+                    {
+                        state = GameState.Playing;
+                    }
+                    break;
 				case GameState.Playing:
 					universe.Update();
-                    if (currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space))
+                    if (universe.hole.InGoal(universe.ball)) {
+                        state = GameState.LevelComplete;
+                    }
+                    if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
                         state = GameState.Paused;
 					break;
 				case GameState.Paused:
                     pauseMenu.Update(currentMouseState, previousMouseState);
-                    if ((currentState.IsKeyDown(Keys.Space) && previousState.IsKeyUp(Keys.Space)) || pauseMenu.playClick)
+                    if (pauseMenu.playClick)
                         state = GameState.Playing;
-                    else if ((currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape)) || pauseMenu.menuClick)
-                        state = GameState.Menu; //When go from in game -> pause -> menu -> play, starts off in the middle of the stroke, so we should have a reset level method called here
+                    else if (pauseMenu.menuClick) {
+                        universe.LoadLevel("level1.level");
+                        state = GameState.Menu;
+                    }
+                    else if (pauseMenu.exitClick)
+                        Exit();                   
 					break;
+                case GameState.LevelComplete:
+                    levelComplete.Update(currentMouseState, previousMouseState);
+                    if (levelComplete.playClick) {
+                        state = GameState.Playing;
+                    }
+                    else if (levelComplete.menuClick)
+                        state = GameState.Menu;
+                    break;
 				case GameState.Complete:
 					break;
-                case GameState.Tool:
-                    if (Program.toolUpdate)
-                    {
-                        universe.Clear();
-                        universe.LoadLevel(Program.level);
-                        Program.toolUpdate = false;
-                    }
-                    break;
 			}
 
             previousState = currentState;
@@ -172,24 +192,20 @@ namespace GravityGolf
 				case GameState.Menu:
                     startMenu.Draw(spriteBatch);
 					break;
+                case GameState.LevelSelect:
+                    levelMenu.Draw(spriteBatch);
+                    break;
 				case GameState.Playing:
 					universe.Draw(graphics.GraphicsDevice, spriteBatch);
 					break;
 				case GameState.Paused:
                     pauseMenu.Draw(spriteBatch);
 					break;
+                case GameState.LevelComplete:
+                    levelComplete.Draw(spriteBatch);
+                    break;
 				case GameState.Complete:
 					break;
-                case GameState.Tool:
-                    if (Program.toolDraw)
-                    {
-                        if (!Program.toolUpdate)
-                        {
-                            universe.Draw(GraphicsDevice, spriteBatch);
-                            Program.toolDraw = false;
-                        }
-                    }
-                    break;
 			}
             
             spriteBatch.End();
@@ -203,7 +219,7 @@ namespace GravityGolf
             level++;
             universe.Clear();
 
-            universe.LoadLevel("level1.level");
+            universe.LoadLevel("levels\\level1.level");
         }
     }
 }

@@ -19,16 +19,19 @@ namespace GravityGolf
         /// <param name="ballX">x position of ball</param>
         /// <param name="ballY">y position of ball</param>
         /// <param name="vectorAndPlanetType">a list of arrays that contain a vector2 for the planets location, and a PlanetType (determines size, mass, and texture)</param>
-        public static void WriteLevel(string level, int ballX, int ballY, List<PlanetStruct> planets)
+        public static void WriteLevel(string level, int ballX, int ballY, int holeX, int holeY, List<PlanetStruct> planets)
         {
             BinaryWriter output = null;
             try
             {
-                Stream outStream = File.OpenWrite(level + ".level");
+                Directory.CreateDirectory("levels");
+                Stream outStream = File.OpenWrite("levels\\" + level + ".level");
                 output = new BinaryWriter(outStream);
 
                 output.Write(ballX);
                 output.Write(ballY);
+                output.Write(holeX);
+                output.Write(holeY);
 
                 output.Write(planets.Count);
 
