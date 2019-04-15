@@ -138,9 +138,13 @@ namespace GravityGolf
                     {
                         state = GameState.Menu;
                     }
-                    else if (levelMenu.levelButtonsClick[0])
-                    {
-                        state = GameState.Playing;
+                    for (int i = 0; i < 9; i++) { 
+                        if (levelMenu.levelButtonsClick[i])
+                        {
+                            //System.Console.WriteLine("Button " + (i + 1) + " clicked");
+                            universe.LoadLevel("level" + (i + 1) + ".level");
+                            state = GameState.Playing;
+                        }
                     }
                     break;
 				case GameState.Playing:

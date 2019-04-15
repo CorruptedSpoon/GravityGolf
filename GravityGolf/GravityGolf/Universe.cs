@@ -306,8 +306,8 @@ namespace GravityGolf
             Vector2 nextPos;
             for(int i = 0; i<iterations; i++)
             {
-                velocity += G * ForceAt(pos);
                 nextPos = pos + velocity;
+                velocity += G * ForceAt(nextPos);
                 sb.Draw(tex, 
                     pos, 
                     null, 
