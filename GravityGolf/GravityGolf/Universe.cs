@@ -301,15 +301,27 @@ namespace GravityGolf
         /// <param name="color">the color in which to draw the arc</param>
         private void DrawArc(GraphicsDevice graphicsDevice ,SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations, Color? color = null)
         {
+            float xMultiplier = Math.Sign(ball.X - graphicsDevice.Viewport.Width / 2);
+            float yMultiplier = Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2);
+            float xForZoom = ball.X + xMultiplier * ball.Radius * 3;
+            float yForZoom = ball.Y + Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2) * ball.Radius * 3;
+
+            float scale = 1f;
+            if (xForZoom > graphicsDevice.Viewport.Width || xForZoom < 0 || yForZoom > graphicsDevice.Viewport.Height || yForZoom < 0)
+                scale = Math.Min(graphicsDevice.Viewport.Width / (2 * (xForZoom - graphicsDevice.Viewport.Width / 2) * xMultiplier),
+                    graphicsDevice.Viewport.Height / (2 * (yForZoom - graphicsDevice.Viewport.Height / 2) * yMultiplier));
+
             Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
             Vector2 nextPos;
             for(int i = 0; i<iterations; i++)
             {
-                velocity += G * ForceAt(pos);
                 nextPos = pos + velocity;
+                velocity += G * ForceAt(nextPos);
+                int xCenter = (int)(graphicsDevice.Viewport.Width / 2 + (pos.X - graphicsDevice.Viewport.Width / 2) * scale);
+                int yCenter = (int)(graphicsDevice.Viewport.Height / 2 + (pos.Y - graphicsDevice.Viewport.Height / 2) * scale);
                 sb.Draw(tex, 
-                    pos, 
+                    new Vector2(xCenter, yCenter), 
                     null, 
                     color==null?Color.White:(Color)color, 
                     (float) Math.Atan2((nextPos - pos).Y, (nextPos - pos).X), 

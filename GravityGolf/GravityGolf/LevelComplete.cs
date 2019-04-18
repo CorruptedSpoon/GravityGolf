@@ -28,7 +28,7 @@ namespace GravityGolf {
         public LevelComplete (ContentManager content, int strokes) {
             this.strokes = strokes;
             buttonMenu = content.Load<Texture2D>("ButtonMenu");
-            buttonPlay = content.Load<Texture2D>("ButtonNextLevel");
+            buttonPlay = content.Load<Texture2D>("ButtonNext");
             levelCompleteOverlay = content.Load<Texture2D>("LevelComplete");
 
             playButton = new Button(new Rectangle(40, 40, 256, 128), buttonPlay, buttonPlay);
