@@ -22,17 +22,17 @@ namespace GravityGolf
         public LevelMenu(ContentManager content)
         {
             //Row 1
-            levelButtons.Add(new Button(new Rectangle(80, 450, 256, 128), content.Load<Texture2D>("Level1Preview"), content.Load<Texture2D>("ButtonPlayOvr")));
-            levelButtons.Add(new Button(new Rectangle(376, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
-            levelButtons.Add(new Button(new Rectangle(672, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
-            levelButtons.Add(new Button(new Rectangle(968, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
-            levelButtons.Add(new Button(new Rectangle(1264, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
+            levelButtons.Add(new Button(new Rectangle(80, 450, 256, 128), content.Load<Texture2D>("level1preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(376, 450, 256, 128), content.Load<Texture2D>("level2preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(672, 450, 256, 128), content.Load<Texture2D>("level3preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(968, 450, 256, 128), content.Load<Texture2D>("level4preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(1264, 450, 256, 128), content.Load<Texture2D>("level5preview"), content.Load<Texture2D>("ButtonPlayOvr")));
 
             //Row 2
-            levelButtons.Add(new Button(new Rectangle(228, 618, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
-            levelButtons.Add(new Button(new Rectangle(524, 618, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
-            levelButtons.Add(new Button(new Rectangle(820, 618, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
-            levelButtons.Add(new Button(new Rectangle(1116, 618, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
+            levelButtons.Add(new Button(new Rectangle(228, 618, 256, 128), content.Load<Texture2D>("level6preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(524, 618, 256, 128), content.Load<Texture2D>("level7preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(820, 618, 256, 128), content.Load<Texture2D>("level8preview"), content.Load<Texture2D>("ButtonPlayOvr")));
+            levelButtons.Add(new Button(new Rectangle(1116, 618, 256, 128), content.Load<Texture2D>("level9preview"), content.Load<Texture2D>("ButtonPlayOvr")));
 
             foreach (Button button in levelButtons) {
                 levelButtonsClick.Add(false);
