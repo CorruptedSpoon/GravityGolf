@@ -260,8 +260,3 @@
 /processorParam:TextureFormat=Color
 /build:red.png
 
-#begin Thumbs.db
-/importer:
-/processor:
-/build:Thumbs.db
-
