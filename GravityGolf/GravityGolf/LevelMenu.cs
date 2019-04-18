@@ -22,7 +22,7 @@ namespace GravityGolf
         public LevelMenu(ContentManager content)
         {
             //Row 1
-            levelButtons.Add(new Button(new Rectangle(80, 450, 256, 128), content.Load<Texture2D>("Level1Preview"), content.Load<Texture2D>("ButtonPlay")));
+            levelButtons.Add(new Button(new Rectangle(80, 450, 256, 128), content.Load<Texture2D>("Level1Preview"), content.Load<Texture2D>("ButtonPlayOvr")));
             levelButtons.Add(new Button(new Rectangle(376, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
             levelButtons.Add(new Button(new Rectangle(672, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
             levelButtons.Add(new Button(new Rectangle(968, 450, 256, 128), content.Load<Texture2D>("Locked"), content.Load<Texture2D>("Locked")));
@@ -38,7 +38,7 @@ namespace GravityGolf
                 levelButtonsClick.Add(false);
             }
 
-            menuButton = new Button(new Rectangle(20, 20, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenu"));
+            menuButton = new Button(new Rectangle(20, 20, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
 
         }
 

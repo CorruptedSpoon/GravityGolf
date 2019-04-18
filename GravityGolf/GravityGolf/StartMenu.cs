@@ -22,8 +22,8 @@ namespace GravityGolf {
         public StartMenu(ContentManager content) {
             logo = content.Load<Texture2D>("Logo");
             buttonPlay = content.Load<Texture2D>("ButtonPlay");
-            playButton = new Button(new Rectangle((800 - 128), 500, 256, 128), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonPlay"));
-            levelButton = new Button(new Rectangle((800 - 128), 500 + 128 + 40, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenu"));
+            playButton = new Button(new Rectangle((800 - 128), 500, 256, 128), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonPlayOvr"));
+            levelButton = new Button(new Rectangle((800 - 128), 500 + 128 + 40, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
         }
 
         public void Draw(SpriteBatch sb) {
