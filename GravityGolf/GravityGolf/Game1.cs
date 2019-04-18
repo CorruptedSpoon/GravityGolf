@@ -143,7 +143,7 @@ namespace GravityGolf
                         if (levelMenu.levelButtonsClick[i])
                         {
                             System.Console.WriteLine("Button " + (i + 1) + " clicked");
-                            universe.LoadLevel("level" + (i + 1) + ".level");
+                            universe.LoadLevel("levels\\level" + (i + 1) + ".level");
                             state = GameState.Playing;
                         }
                     }
