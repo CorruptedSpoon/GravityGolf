@@ -155,7 +155,7 @@ namespace GravityGolf
         {
             if ((ball.Center-hole.Center).Length()<=hole.Radius) //when the ball goes in the hole
             {
-                LoadLevel("level" + (levelNum+1) + ".level");
+                LoadLevel("levels\\level" + (levelNum+1) + ".level");
             }
             
             bool planetIntersectChange = false;
