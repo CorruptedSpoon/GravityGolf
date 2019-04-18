@@ -109,7 +109,7 @@ namespace GravityGolf
         }
 
         //I just threw this method here for now.  This seems pretty horrible as the ball should not be changable.  We can figure out a better way later.
-        public void SetBall(Ball b) //Maybe put in constructor?
+        public void SetBall(Ball b)
         {
             ball = b;
         }

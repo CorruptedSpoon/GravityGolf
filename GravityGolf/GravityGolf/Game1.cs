@@ -121,12 +121,13 @@ namespace GravityGolf
             //from game, space to pause
             //from pause menu, space to resume, esc to main menu
 
-			switch (state)
-			{
-				case GameState.Menu:
+            switch (state)
+            {
+                case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if (startMenu.play == true)
+                    if (startMenu.play == true) { 
                         state = GameState.Playing;
+                    }
                     else if (startMenu.level == true)
                         state = GameState.LevelSelect;
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
@@ -141,7 +142,7 @@ namespace GravityGolf
                     for (int i = 0; i < 9; i++) { 
                         if (levelMenu.levelButtonsClick[i])
                         {
-                            //System.Console.WriteLine("Button " + (i + 1) + " clicked");
+                            System.Console.WriteLine("Button " + (i + 1) + " clicked");
                             universe.LoadLevel("level" + (i + 1) + ".level");
                             state = GameState.Playing;
                         }
