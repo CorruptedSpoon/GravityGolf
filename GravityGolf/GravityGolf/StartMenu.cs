@@ -27,7 +27,7 @@ namespace GravityGolf {
         }
 
         public void Draw(SpriteBatch sb) {
-            sb.Draw(logo, new Rectangle((800 - 256), 0, 512, 256), Color.White);
+            sb.Draw(logo, new Rectangle((800 - 256), 100, 512, 256), Color.White);
             //sb.Draw(buttonPlay, new Rectangle((800 - 128), 500, 256, 128), Color.White);
             playButton.Draw(sb, currentState);
             levelButton.Draw(sb, currentState);
