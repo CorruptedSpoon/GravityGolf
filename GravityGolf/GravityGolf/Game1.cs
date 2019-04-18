@@ -125,7 +125,9 @@ namespace GravityGolf
             {
                 case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if (startMenu.play == true) { 
+                    if (startMenu.play == true) {
+                        universe.Clear();
+                        universe.LoadLevel("levels\\level" + level + ".level");
                         state = GameState.Playing;
                     }
                     else if (startMenu.level == true)
@@ -138,6 +140,7 @@ namespace GravityGolf
                     if(levelMenu.menuClick == true)
                     {
                         state = GameState.Menu;
+                        universe.Clear();
                     }
                     for (int i = 0; i < 9; i++) { 
                         if (levelMenu.levelButtonsClick[i])
