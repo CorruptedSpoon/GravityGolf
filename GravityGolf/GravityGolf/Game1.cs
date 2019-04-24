@@ -150,6 +150,8 @@ namespace GravityGolf
                     if (pauseMenu.playClick)
                         state = GameState.Playing;
                     else if (pauseMenu.menuClick) {
+                        //when you select play from the main menu, it automatically goes to level 1
+                        //not a bug, a *feature*
                         universe.LoadLevel("level1.level");
                         state = GameState.Menu;
                     }
