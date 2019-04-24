@@ -33,10 +33,6 @@ namespace GravityGolf {
 
         public void Draw(SpriteBatch sb) {
             sb.Draw(pauseOverlay, new Rectangle(0, 0, 1600, 900), Color.White);
-            //sb.Draw(buttonPlay, new Rectangle(0, 0, 256, 128), Color.White);
-            //sb.Draw(buttonMenu, new Rectangle(256, 0, 256, 128), Color.White);
-            //sb.Draw(buttonExit, new Rectangle(512, 0, 256, 128), Color.White);
-
             playButton.Draw(sb, currentState);
             menuButton.Draw(sb, currentState);
             exitButton.Draw(sb, currentState);

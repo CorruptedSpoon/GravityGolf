@@ -8,14 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GravityGolf {
     class Ball : GameObject {
-
-        // -----Fields-----
+        
         public Vector2 direction;
-
-
-
-        // -----Constructor-----
-
+        
         /// <summary>
         /// Constructor for the ball
         /// </summary>
@@ -26,9 +21,7 @@ namespace GravityGolf {
         /// <param name="color">color of the ball</param>
         public Ball(Vector2 center, int radius, float mass, Texture2D texture = null, Color? color = null) : base(center, radius, mass, texture, color) {
         }
-
-        // -----Methods-----
-
+        
         public void Translate() {
             center += direction;
         }

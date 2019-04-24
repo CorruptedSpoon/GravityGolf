@@ -27,8 +27,8 @@ namespace GravityGolf
         {
             gameWonOverlay = content.Load<Texture2D>("GameWon");
 
-            menuButton = new Button(new Rectangle(40, 40, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
-            exitButton = new Button(new Rectangle(256 + 80, 40, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
+            menuButton = new Button(new Rectangle(672, 500, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
+            exitButton = new Button(new Rectangle(672, 628, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
         }
         public void Draw(SpriteBatch sb)
         {

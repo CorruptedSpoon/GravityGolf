@@ -33,7 +33,6 @@ namespace GravityGolf
         GameWon gameWon;
 
         int level;
-        int numStrokes;
 
         KeyboardState currentState;
         KeyboardState previousState;
@@ -69,7 +68,7 @@ namespace GravityGolf
             gameWon = new GameWon(Content);
 
             level = 1;
-			state = GameState.Menu;
+			state = GameState.GameWon;
             
             IsMouseVisible = true;
 
