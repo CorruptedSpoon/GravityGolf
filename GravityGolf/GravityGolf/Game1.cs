@@ -127,7 +127,7 @@ namespace GravityGolf
                     startMenu.Update(currentMouseState, previousMouseState);
                     if (startMenu.play == true) {
                         universe.Clear();
-                        universe.LoadLevel("levels\\level" + level + ".level");
+                        universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;
                     }
                     else if (startMenu.level == true)
@@ -146,7 +146,7 @@ namespace GravityGolf
                         if (levelMenu.levelButtonsClick[i])
                         {
                             universe.Clear();
-                            universe.LoadLevel("levels\\level" + (i + 1) + ".level");
+                            universe.LoadLevel("Content\\levels\\level" + (i + 1) + ".level");
                             level = i + 1;
                             state = GameState.Playing;
                         }
@@ -165,7 +165,7 @@ namespace GravityGolf
                     if (pauseMenu.playClick)
                         state = GameState.Playing;
                     else if (pauseMenu.menuClick) {
-                        universe.LoadLevel("level" + level+ ".level");
+                        universe.LoadLevel("Content\\levels\\level" + level+ ".level");
                         state = GameState.Menu;
                     }
                     else if (pauseMenu.exitClick)

@@ -155,7 +155,7 @@ namespace GravityGolf
         {
             if ((ball.Center-hole.Center).Length()<=hole.Radius) //when the ball goes in the hole
             {
-                LoadLevel("levels\\level" + (levelNum+1) + ".level");
+                LoadLevel("Content\\levels\\level" + (levelNum+1) + ".level");
             }
             
             bool planetIntersectChange = false;
@@ -233,7 +233,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            //levelNum = int.Parse(level.Substring(12, 1)); <--this is causing errors
+            //levelNum = int.Parse(level.Substring(20, 1)); 
             BinaryReader input = null;
             try
             {
