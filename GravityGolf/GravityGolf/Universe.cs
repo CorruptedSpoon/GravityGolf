@@ -17,8 +17,6 @@ namespace GravityGolf
         public Ball ball;
         public Hole hole;
 
-        private int levelNum;
-
 		private Vector2? click1;
 		private Vector2? click2;
 
@@ -28,10 +26,7 @@ namespace GravityGolf
 		ButtonState oldState;
 
         private bool planetIntersect;
-
-        private float ballStartX;
-        private float ballStartY;
-
+        
         private int strokes;
 
         private GraphicsDevice graphics;
@@ -56,7 +51,6 @@ namespace GravityGolf
             this.graphics = graphics;
             this.content = content;
             font = this.content.Load<SpriteFont>("font");
-            //game1 = new Game1();
         }
 
         /// <summary>
@@ -153,11 +147,6 @@ namespace GravityGolf
         /// </summary>
         public void Update() //Check win condition, move ball
         {
-            if ((ball.Center-hole.Center).Length()<=hole.Radius) //when the ball goes in the hole
-            {
-                LoadLevel("Content\\levels\\level" + (levelNum+1) + ".level");
-            }
-            
             bool planetIntersectChange = false;
             Planet touching = null;
             foreach(Planet planet in planets)
@@ -202,12 +191,6 @@ namespace GravityGolf
                 click1 = null;
                 click2 = null;
 			}
-            
-            ////Checking if ball in goal
-            //if(hole.InGoal(ball) == true)
-            //{
-            //    game1.state = GameState.LevelComplete;
-            //}
 			
             planetIntersectChange = planetIntersect;
 
