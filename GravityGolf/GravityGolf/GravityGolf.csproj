@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <ApplicationIcon>hole.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -97,10 +97,8 @@
     <None Include="Content\PlanetMedium.png" />
     <None Include="Content\PlanetSmall.png" />
     <None Include="Content\red.png" />
+    <Content Include="hole.ico" />
     <Content Include="Icon.ico" />
-    <None Include="levels\level1.level">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />

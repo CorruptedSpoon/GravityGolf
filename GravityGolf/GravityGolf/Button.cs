@@ -15,8 +15,6 @@ namespace GravityGolf
         protected Texture2D normalTexture;
         protected Texture2D hoverTexture; //if we want to do it, we can change it in the universe class
         protected bool prevMouseDown = false;
-        protected MouseState currentState;
-        protected MouseState previousState;
 
         public int X {
             get { return rect.X; }

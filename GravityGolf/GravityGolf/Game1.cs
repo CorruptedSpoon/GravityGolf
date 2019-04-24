@@ -39,6 +39,8 @@ namespace GravityGolf
         MouseState currentMouseState;
         MouseState previousMouseState;
 
+        Texture2D background;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -91,7 +93,7 @@ namespace GravityGolf
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            background = Content.Load<Texture2D>("Background");
         }
 
         /// <summary>
@@ -119,12 +121,15 @@ namespace GravityGolf
             //from game, space to pause
             //from pause menu, space to resume, esc to main menu
 
-			switch (state)
-			{
-				case GameState.Menu:
+            switch (state)
+            {
+                case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if (startMenu.play == true)
+                    if (startMenu.play == true) {
+                        universe.Clear();
+                        universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;
+                    }
                     else if (startMenu.level == true)
                         state = GameState.LevelSelect;
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
@@ -135,6 +140,16 @@ namespace GravityGolf
                     if(levelMenu.menuClick == true)
                     {
                         state = GameState.Menu;
+                        universe.Clear();
+                    }
+                    for (int i = 0; i < 9; i++) { 
+                        if (levelMenu.levelButtonsClick[i])
+                        {
+                            universe.Clear();
+                            universe.LoadLevel("Content\\levels\\level" + (i + 1) + ".level");
+                            level = i + 1;
+                            state = GameState.Playing;
+                        }
                     }
                     break;
 				case GameState.Playing:
@@ -150,9 +165,7 @@ namespace GravityGolf
                     if (pauseMenu.playClick)
                         state = GameState.Playing;
                     else if (pauseMenu.menuClick) {
-                        //when you select play from the main menu, it automatically goes to level 1
-                        //not a bug, a *feature*
-                        universe.LoadLevel("level1.level");
+                        universe.LoadLevel("Content\\levels\\level" + level+ ".level");
                         state = GameState.Menu;
                     }
                     else if (pauseMenu.exitClick)
@@ -161,6 +174,7 @@ namespace GravityGolf
                 case GameState.LevelComplete:
                     levelComplete.Update(currentMouseState, previousMouseState);
                     if (levelComplete.playClick) {
+                        NextLevel();
                         state = GameState.Playing;
                     }
                     else if (levelComplete.menuClick)
@@ -185,6 +199,7 @@ namespace GravityGolf
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+            spriteBatch.Draw(background,new Rectangle(0,0,graphics.PreferredBackBufferWidth,graphics.PreferredBackBufferHeight),Color.White);
 			switch (state)
 			{
 				case GameState.Menu:
@@ -217,7 +232,7 @@ namespace GravityGolf
             level++;
             universe.Clear();
 
-            universe.LoadLevel("levels\\level1.level");
+            universe.LoadLevel("levels\\level" + level+ ".level");
         }
     }
 }

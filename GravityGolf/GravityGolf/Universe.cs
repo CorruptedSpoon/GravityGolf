@@ -109,7 +109,7 @@ namespace GravityGolf
         }
 
         //I just threw this method here for now.  This seems pretty horrible as the ball should not be changable.  We can figure out a better way later.
-        public void SetBall(Ball b) //Maybe put in constructor?
+        public void SetBall(Ball b)
         {
             ball = b;
         }
@@ -155,7 +155,7 @@ namespace GravityGolf
         {
             if ((ball.Center-hole.Center).Length()<=hole.Radius) //when the ball goes in the hole
             {
-                LoadLevel("level" + (levelNum+1) + ".level");
+                LoadLevel("Content\\levels\\level" + (levelNum+1) + ".level");
             }
             
             bool planetIntersectChange = false;
@@ -233,7 +233,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            //levelNum = int.Parse(level.Substring(12, 1)); <--this is causing errors
+            //levelNum = int.Parse(level.Substring(20, 1)); 
             BinaryReader input = null;
             try
             {
@@ -243,7 +243,7 @@ namespace GravityGolf
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
                 SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
                 //test hole
-                SetHole(new Hole(new Vector2(input.ReadInt32(), input.ReadInt32()), 10, 10, content.Load<Texture2D>("red"), Color.Blue, false));
+                SetHole(new Hole(new Vector2(input.ReadInt32(), input.ReadInt32()), 10, 10, content.Load<Texture2D>("hole"), Color.White, false));
 
                 int num = input.ReadInt32();
 
@@ -301,15 +301,27 @@ namespace GravityGolf
         /// <param name="color">the color in which to draw the arc</param>
         private void DrawArc(GraphicsDevice graphicsDevice ,SpriteBatch sb, Vector2 pos, Vector2 velocity, int iterations, Color? color = null)
         {
+            float xMultiplier = Math.Sign(ball.X - graphicsDevice.Viewport.Width / 2);
+            float yMultiplier = Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2);
+            float xForZoom = ball.X + xMultiplier * ball.Radius * 3;
+            float yForZoom = ball.Y + Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2) * ball.Radius * 3;
+
+            float scale = 1f;
+            if (xForZoom > graphicsDevice.Viewport.Width || xForZoom < 0 || yForZoom > graphicsDevice.Viewport.Height || yForZoom < 0)
+                scale = Math.Min(graphicsDevice.Viewport.Width / (2 * (xForZoom - graphicsDevice.Viewport.Width / 2) * xMultiplier),
+                    graphicsDevice.Viewport.Height / (2 * (yForZoom - graphicsDevice.Viewport.Height / 2) * yMultiplier));
+
             Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
             Vector2 nextPos;
             for(int i = 0; i<iterations; i++)
             {
-                velocity += G * ForceAt(pos);
                 nextPos = pos + velocity;
+                velocity += G * ForceAt(nextPos);
+                int xCenter = (int)(graphicsDevice.Viewport.Width / 2 + (pos.X - graphicsDevice.Viewport.Width / 2) * scale);
+                int yCenter = (int)(graphicsDevice.Viewport.Height / 2 + (pos.Y - graphicsDevice.Viewport.Height / 2) * scale);
                 sb.Draw(tex, 
-                    pos, 
+                    new Vector2(xCenter, yCenter), 
                     null, 
                     color==null?Color.White:(Color)color, 
                     (float) Math.Atan2((nextPos - pos).Y, (nextPos - pos).X), 

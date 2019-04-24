@@ -10,9 +10,6 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GravityGolf {
     class PauseMenu {
-        Texture2D buttonExit;
-        Texture2D buttonMenu;
-        Texture2D buttonPlay;
         Texture2D pauseOverlay;
 
         Button playButton;
@@ -27,14 +24,11 @@ namespace GravityGolf {
         public bool exitClick;
 
         public PauseMenu(ContentManager content) {
-            buttonExit = content.Load<Texture2D>("ButtonExit");
-            buttonMenu = content.Load<Texture2D>("ButtonMenu");
-            buttonPlay = content.Load<Texture2D>("ButtonPlay");
             pauseOverlay = content.Load<Texture2D>("PauseOverlay");
 
-            playButton = new Button(new Rectangle(0, 0, 256, 128), buttonPlay, buttonPlay);
-            menuButton = new Button(new Rectangle(256, 0, 256, 128), buttonMenu, buttonMenu);
-            exitButton = new Button( new Rectangle(512, 0, 256, 128), buttonExit, buttonExit);
+            playButton = new Button(new Rectangle(376, 450, 256, 128), content.Load<Texture2D>("ButtonPlay"), content.Load<Texture2D>("ButtonPlayOvr"));
+            menuButton = new Button(new Rectangle(672, 450, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
+            exitButton = new Button( new Rectangle(968, 450, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
         }
 
         public void Draw(SpriteBatch sb) {
