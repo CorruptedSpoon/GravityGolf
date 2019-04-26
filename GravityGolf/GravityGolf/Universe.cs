@@ -34,6 +34,12 @@ namespace GravityGolf
         private ContentManager content;
         private SpriteFont font;
 
+        private List<int> strokeCounter = new List<int>();
+
+        private int levelNum;
+
+        //private Game1 game1;
+
         public int Strokes {
             get { return strokes; }
         }
@@ -131,10 +137,12 @@ namespace GravityGolf
             {
                 planet.Draw(graphicsDevice, sb, scale);
             }
-            ball.Draw(graphicsDevice, sb, scale);
+            
             hole.Draw(graphicsDevice, sb, scale);
+            ball.Draw(graphicsDevice, sb, scale);
+
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
-                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
+                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 60-5*levelNum,
                     LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
 
             sb.DrawString(font, "Strokes: " + strokes, new Vector2(30, 30), Color.White);
@@ -175,7 +183,9 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released && click1 != null)
 				{
-                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + (LaunchStrength * ((Vector2)click1 - (Vector2)click2)))) {
+                    Vector2 launch = LaunchStrength * ((Vector2)click1 - (Vector2)click2);
+                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + launch)
+                        && launch.Length() < EscapeVelocityAt(ball.Center)) {
                         ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
                         strokes++;
                     }
@@ -195,7 +205,12 @@ namespace GravityGolf
 			oldState = Mouse.GetState().LeftButton;
 
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
-		}
+
+            if (hole.InGoal(ball))
+            {
+                
+            }
+        }
 
         /// <summary>
         /// removes all planets from this Universe
@@ -214,7 +229,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            //levelNum = int.Parse(level.Substring(20, 1)); 
+            levelNum = int.Parse(level.Substring(20, 1)); 
             BinaryReader input = null;
             try
             {
@@ -297,6 +312,7 @@ namespace GravityGolf
             Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
             Vector2 nextPos;
+            bool stopArc = false;
             for(int i = 0; i<iterations; i++)
             {
                 nextPos = pos + velocity;
@@ -312,6 +328,17 @@ namespace GravityGolf
                     new Vector2((nextPos - pos).Length(), 1), 
                     SpriteEffects.None, 1);
                 pos = nextPos;
+
+                foreach (Planet p in planets)
+                {
+                    if ((nextPos - p.Center).Length() <= p.Radius + ball.Radius || (nextPos - hole.Center).Length() < hole.Radius+ball.Radius)
+                    {
+                        stopArc = true;
+                        break;
+                    }
+                }
+                if (stopArc)
+                    break;
             }
         }
 

@@ -20,8 +20,11 @@ namespace GravityGolf
         Button menuButton;
         Button exitButton;
 
-        public bool menuClick;
-        public bool exitClick;
+        private bool menuClick;
+        private bool exitClick;
+
+        public bool MenuClick { get { return menuClick; } }
+        public bool ExitClick { get { return exitClick; } }
 
         public GameWon(ContentManager content)
         {
