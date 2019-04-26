@@ -68,7 +68,7 @@ namespace GravityGolf
             gameWon = new GameWon(Content);
 
             level = 1;
-			state = GameState.GameWon;
+			state = GameState.Menu;
             
             IsMouseVisible = true;
 

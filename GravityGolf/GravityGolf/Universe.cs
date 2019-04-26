@@ -177,7 +177,9 @@ namespace GravityGolf
 				}
 				else if (oldState == ButtonState.Pressed && Mouse.GetState().LeftButton == ButtonState.Released && click1 != null)
 				{
-                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + (LaunchStrength * ((Vector2)click1 - (Vector2)click2)))) {
+                    Vector2 launch = LaunchStrength * ((Vector2)click1 - (Vector2)click2);
+                    if (!touching.IsInside(ball.Center - ball.Radius * touching.UnitNormalAt(ball.Center) + launch)
+                        && launch.Length() < EscapeVelocityAt(ball.Center)) {
                         ball.Accelerate(LaunchStrength * ((Vector2)click1 - (Vector2)click2));
                         strokes++;
                     }
@@ -297,6 +299,7 @@ namespace GravityGolf
             Texture2D tex = new Texture2D(graphicsDevice, 1, 1);
             tex.SetData(new Color[] { Color.White }, 0, 1);
             Vector2 nextPos;
+            bool stopArc = false;
             for(int i = 0; i<iterations; i++)
             {
                 nextPos = pos + velocity;
@@ -312,6 +315,17 @@ namespace GravityGolf
                     new Vector2((nextPos - pos).Length(), 1), 
                     SpriteEffects.None, 1);
                 pos = nextPos;
+
+                foreach (Planet p in planets)
+                {
+                    if ((nextPos - p.Center).Length() <= p.Radius + ball.Radius || (nextPos - hole.Center).Length() < hole.Radius+ball.Radius)
+                    {
+                        stopArc = true;
+                        break;
+                    }
+                }
+                if (stopArc)
+                    break;
             }
         }
 
