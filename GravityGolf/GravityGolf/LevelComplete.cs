@@ -13,8 +13,6 @@ namespace GravityGolf {
         MouseState currentState;
         MouseState previousState;
 
-        int strokes;
-
         Texture2D levelCompleteOverlay;
 
         Button playButton;
@@ -23,12 +21,11 @@ namespace GravityGolf {
         public bool menuClick;
         public bool playClick;
 
-        public LevelComplete (ContentManager content, int strokes) {
-            this.strokes = strokes;
+        public LevelComplete (ContentManager content) {
             levelCompleteOverlay = content.Load<Texture2D>("LevelComplete");
 
-            playButton = new Button(new Rectangle(40, 40, 256, 128), content.Load<Texture2D>("ButtonNext"), content.Load<Texture2D>("ButtonNextOvr"));
-            menuButton = new Button(new Rectangle(256 + 80, 40, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
+            playButton = new Button(new Rectangle(672, 500, 256, 128), content.Load<Texture2D>("ButtonNext"), content.Load<Texture2D>("ButtonNextOvr"));
+            menuButton = new Button(new Rectangle(672, 628, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
         }
         public void Draw(SpriteBatch sb) {
             sb.Draw(levelCompleteOverlay, new Rectangle(0, 0, 1600, 900), Color.White);
@@ -41,12 +38,10 @@ namespace GravityGolf {
             previousState = previous;
 
             playButton.Update(currentState, previousState);
-            if(playButton.IsClick(current, previous)) {
+            if(playButton.IsClick(current, previous))
                 playClick = true;
-            }
-            else {
+            else
                 playClick = false;
-            }
 
             menuButton.Update(currentState, previousState);
             if (menuButton.IsClick(current, previous))

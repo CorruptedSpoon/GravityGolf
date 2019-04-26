@@ -20,6 +20,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Ariel48.spritefont;Font.spritefont
 
+#begin Asteroid.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Asteroid.png
+
 #begin Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -152,6 +164,42 @@
 /processorParam:TextureFormat=Color
 /build:ButtonPlayOvr.png
 
+#begin EndOverlay.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:EndOverlay.png
+
+#begin GameWon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:GameWon.png
+
+#begin hole.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:hole.png
+
 #begin level1preview.PNG
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -260,18 +308,6 @@
 /processorParam:TextureFormat=Color
 /build:level9preivew.PNG;level9preview.PNG
 
-#begin hole.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:hole.png
-
 #begin LevelComplete.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -283,6 +319,33 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:LevelComplete.png
+
+#begin levels/level1.level
+/copy:levels/level1.level
+
+#begin levels/level2.level
+/copy:levels/level2.level
+
+#begin levels/level3.level
+/copy:levels/level3.level
+
+#begin levels/level4.level
+/copy:levels/level4.level
+
+#begin levels/level5.level
+/copy:levels/level5.level
+
+#begin levels/level6.level
+/copy:levels/level6.level
+
+#begin levels/level7.level
+/copy:levels/level7.level
+
+#begin levels/level8.level
+/copy:levels/level8.level
+
+#begin levels/level9.level
+/copy:levels/level9.level
 
 #begin Locked.png
 /importer:TextureImporter

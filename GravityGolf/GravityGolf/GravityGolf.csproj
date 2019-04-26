@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="GameObject.cs" />
+    <Compile Include="GameWon.cs" />
     <Compile Include="Hole.cs" />
     <Compile Include="LevelComplete.cs" />
     <Compile Include="LevelMenu.cs" />
@@ -99,17 +100,6 @@
     <None Include="Content\red.png" />
     <Content Include="hole.ico" />
     <Content Include="Icon.ico" />
-    <None Include="levels\level1.level" />
-    <None Include="levels\level2.level" />
-    <None Include="levels\level3.level">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="levels\level4.level" />
-    <None Include="levels\level5.level" />
-    <None Include="levels\level6.level" />
-    <None Include="levels\level7.level" />
-    <None Include="levels\level8.level" />
-    <None Include="levels\level9.level" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
