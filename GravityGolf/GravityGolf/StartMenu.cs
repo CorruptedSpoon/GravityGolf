@@ -12,12 +12,18 @@ namespace GravityGolf {
     class StartMenu {
         Texture2D logo;
         Texture2D buttonPlay;
+
         MouseState currentState;
         MouseState previousState;
+
         Button playButton;
         Button levelButton;
+        Button exitButton;
+
         public bool play = false;
         public bool level = false;
+        public bool exit = false;
+
 
         public StartMenu(ContentManager content) {
             logo = content.Load<Texture2D>("Logo");
