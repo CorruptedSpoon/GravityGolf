@@ -19,9 +19,13 @@ namespace GravityGolf {
         MouseState currentState;
         MouseState previousState;
 
-        public bool menuClick;
-        public bool playClick;
-        public bool exitClick;
+        private bool menuClick;
+        private bool playClick;
+        private bool exitClick;
+
+        public bool PlayClick { get { return playClick; } }
+        public bool MenuClick { get { return menuClick; } }
+        public bool ExitClick { get { return exitClick; } }
 
         public PauseMenu(ContentManager content) {
             pauseOverlay = content.Load<Texture2D>("PauseOverlay");
