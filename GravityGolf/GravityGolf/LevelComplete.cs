@@ -21,6 +21,11 @@ namespace GravityGolf {
         public bool menuClick;
         public bool playClick;
 
+        public bool MenuClick { get { return menuClick; } }
+        public bool PlayClick { get { return playClick; } }
+
+
+
         public LevelComplete (ContentManager content) {
             levelCompleteOverlay = content.Load<Texture2D>("LevelComplete");
 

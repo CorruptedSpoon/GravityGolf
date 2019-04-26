@@ -108,20 +108,20 @@ namespace GravityGolf
             {
                 case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if (startMenu.play == true) {
+                    if (startMenu.Play == true) {
                         universe.Clear();
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;
                     }
-                    else if (startMenu.level)
+                    else if (startMenu.Level)
                         state = GameState.LevelSelect;
-                    else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
+                    else if ((currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape)) || startMenu.Exit)
                         Exit();
 					break;
 
                 case GameState.LevelSelect:
                     levelMenu.Update(currentMouseState, previousMouseState);
-                    if(levelMenu.menuClick == true)
+                    if(levelMenu.MenuClick == true)
                     {
                         state = GameState.Menu;
                         universe.Clear();
@@ -151,35 +151,35 @@ namespace GravityGolf
 
 				case GameState.Paused:
                     pauseMenu.Update(currentMouseState, previousMouseState);
-                    if (pauseMenu.playClick)
+                    if (pauseMenu.PlayClick)
                         state = GameState.Playing;
-                    else if (pauseMenu.menuClick) {
+                    else if (pauseMenu.MenuClick) {
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Menu;
                     }
-                    else if (pauseMenu.exitClick)
+                    else if (pauseMenu.ExitClick)
                         Exit();                   
 					break;
 
                 case GameState.LevelComplete:
                     levelComplete.Update(currentMouseState, previousMouseState);
-                    if (levelComplete.playClick)
+                    if (levelComplete.PlayClick)
                     {
                         universe.Clear();
                         level++;
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;
                     }
-                    else if (levelComplete.menuClick)
+                    else if (levelComplete.MenuClick)
                         state = GameState.Menu;
                     break;
 
 				case GameState.GameWon:
                     level = 1;
                     gameWon.Update(currentMouseState, previousMouseState);
-                    if (gameWon.menuClick)
+                    if (gameWon.MenuClick)
                         state = GameState.Menu;
-                    else if (gameWon.exitClick)
+                    else if (gameWon.ExitClick)
                         Exit();
 					break;
 			}

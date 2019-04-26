@@ -15,8 +15,13 @@ namespace GravityGolf
         MouseState currentState;
 
         Button menuButton;
+
         List<Button> levelButtons = new List<Button>();
-        public bool menuClick = false;
+
+        private bool menuClick = false;
+
+        public bool MenuClick { get { return menuClick; } }
+
         public List<bool> levelButtonsClick = new List<bool>();
 
         public LevelMenu(ContentManager content)
