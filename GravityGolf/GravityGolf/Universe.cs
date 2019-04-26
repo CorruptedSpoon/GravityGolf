@@ -34,6 +34,8 @@ namespace GravityGolf
         private ContentManager content;
         private SpriteFont font;
 
+        private List<int> strokeCounter = new List<int>();
+
         //private Game1 game1;
 
         public int Strokes {
@@ -133,8 +135,10 @@ namespace GravityGolf
             {
                 planet.Draw(graphicsDevice, sb, scale);
             }
-            ball.Draw(graphicsDevice, sb, scale);
+            
             hole.Draw(graphicsDevice, sb, scale);
+            ball.Draw(graphicsDevice, sb, scale);
+
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
                 DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
                     LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
@@ -199,7 +203,12 @@ namespace GravityGolf
 			oldState = Mouse.GetState().LeftButton;
 
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
-		}
+
+            if (hole.InGoal(ball))
+            {
+                
+            }
+        }
 
         /// <summary>
         /// removes all planets from this Universe
