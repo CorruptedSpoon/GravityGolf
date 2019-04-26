@@ -24,6 +24,8 @@ namespace GravityGolf
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        int[] hiScores;
+
         public GameState state;
         Universe universe;
         StartMenu startMenu;
@@ -68,9 +70,39 @@ namespace GravityGolf
             gameWon = new GameWon(Content);
 
             level = 1;
-			state = GameState.GameWon;
+			state = GameState.Menu;
+
+            hiScores = new int[9];
             
             IsMouseVisible = true;
+
+            FileStream outStream = null;
+            BinaryWriter writer = null;
+            BinaryReader reader = null;
+
+            if (!File.Exists("hi.score"))
+            {
+                for (int i = 0; i < 9; i++)
+                    hiScores[i] = 0;
+
+                outStream = File.OpenWrite("hi.score");
+                writer = new BinaryWriter(outStream);
+                foreach(int i in hiScores)
+                {
+                    writer.Write(i);
+                }
+                writer.Close();
+            }
+            else
+            {
+                outStream = File.OpenRead("hi.score");
+                reader = new BinaryReader(outStream);
+                for(int i = 0; i < 9; i++)
+                {
+                    hiScores[i] = reader.ReadInt32();
+                }
+                reader.Close();
+            }
 
             base.Initialize();
         }
@@ -166,6 +198,8 @@ namespace GravityGolf
                     if (levelComplete.playClick)
                     {
                         universe.Clear();
+                        if (hiScores[level - 1] > universe.Strokes)
+                            hiScores[level - 1] = universe.Strokes;
                         level++;
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;

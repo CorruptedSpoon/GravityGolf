@@ -34,8 +34,6 @@ namespace GravityGolf
         private ContentManager content;
         private SpriteFont font;
 
-        //private Game1 game1;
-
         public int Strokes {
             get { return strokes; }
         }
@@ -262,6 +260,8 @@ namespace GravityGolf
                     input.Close();
             }
         }
+
+
 
         /// <summary>
         /// Returns whether the left mouse button was just hit
