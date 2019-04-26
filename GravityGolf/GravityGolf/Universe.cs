@@ -36,6 +36,8 @@ namespace GravityGolf
 
         private List<int> strokeCounter = new List<int>();
 
+        private int levelNum;
+
         //private Game1 game1;
 
         public int Strokes {
@@ -140,7 +142,7 @@ namespace GravityGolf
             ball.Draw(graphicsDevice, sb, scale);
 
             if (!FirstClick() && Mouse.GetState().LeftButton == ButtonState.Pressed && !(click1==null||click2==null))
-                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 50,
+                DrawArc(graphicsDevice, sb, ball.Center, LaunchStrength*((Vector2)click1 - (Vector2)click2), 60-5*levelNum,
                     LaunchStrength * ((Vector2)click1 - (Vector2)click2).Length() < EscapeVelocityAt(ball.Center)?(Color?)null:Color.Red);
 
             sb.DrawString(font, "Strokes: " + strokes, new Vector2(30, 30), Color.White);
@@ -227,7 +229,7 @@ namespace GravityGolf
         public void LoadLevel(string level)
         {
             strokes = 0;
-            //levelNum = int.Parse(level.Substring(20, 1)); 
+            levelNum = int.Parse(level.Substring(20, 1)); 
             BinaryReader input = null;
             try
             {
