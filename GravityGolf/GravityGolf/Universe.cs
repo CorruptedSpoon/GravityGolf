@@ -35,8 +35,6 @@ namespace GravityGolf
         private ContentManager content;
         private SpriteFont font;
 
-        public int[] strokeCounter = new int[10];
-
         private int levelNum;
 
         //private Game1 game1;
@@ -57,10 +55,6 @@ namespace GravityGolf
             this.graphics = graphics;
             this.content = content;
             font = this.content.Load<SpriteFont>("font");
-            for(int i = 0; i < 10; i++)
-            {
-                strokeCounter[i] = int.MaxValue;
-            }
         }
 
         /// <summary>
@@ -340,14 +334,6 @@ namespace GravityGolf
                 }
                 if (stopArc)
                     break;
-            }
-        }
-
-        public void ResetStrokeCounter()
-        {
-            for(int i = 0; i < 9; i++)
-            {
-                strokeCounter[i] = int.MaxValue;
             }
         }
     }

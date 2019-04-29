@@ -37,6 +37,7 @@ namespace GravityGolf
         GameWon gameWon;
 
         int level;
+        int totalScore;
 
         KeyboardState currentState;
         KeyboardState previousState;
@@ -73,6 +74,7 @@ namespace GravityGolf
 
             level = 1;
 			state = GameState.Menu;
+            totalScore = 0;
 
             hiScores = new int[9];
             gotHiScore = new bool[9];
@@ -81,6 +83,7 @@ namespace GravityGolf
             for(int i = 0; i < 9; i++)
             {
                 gotHiScore[i] = false;
+                currentScores[0] = int.MaxValue;
             }
             
             IsMouseVisible = true;
@@ -92,7 +95,7 @@ namespace GravityGolf
             if (!File.Exists("hi.score"))
             {
                 for (int i = 0; i < 9; i++)
-                    hiScores[i] = 0;
+                    hiScores[i] = int.MaxValue;
 
                 outStream = File.OpenWrite("hi.score");
                 writer = new BinaryWriter(outStream);
@@ -149,7 +152,8 @@ namespace GravityGolf
             {
                 case GameState.Menu:
                     startMenu.Update(currentMouseState, previousMouseState);
-                    if (startMenu.Play == true) {
+                    if (startMenu.Play == true)
+                    {
                         universe.Clear();
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;
@@ -180,20 +184,23 @@ namespace GravityGolf
 
 				case GameState.Playing:
 					universe.Update();
-                    if (universe.hole.InGoal(universe.ball)) {
-                        if (level >= 9) {
-                            if(universe.strokeCounter[level-1] > universe.Strokes){
-                                universe.strokeCounter[level-1] = universe.Strokes;
-                            }
-                            gameWon.GetTotalStrokes(universe.strokeCounter);
+                    if (universe.hole.InGoal(universe.ball))
+                    {
+                        currentScores[level - 1] = universe.Strokes;
+                        totalScore += universe.Strokes;
+                        if (hiScores[level - 1] < universe.Strokes)
+                        {
+                            hiScores[level - 1] = universe.Strokes;
+                            gotHiScore[level - 1] = true;
+                        }
+                        if (level >= 9)
+                        {
+                            gameWon.GetTotalStrokes(currentScores);
                             state = GameState.GameWon;
                         }
-                        else {
-                            if(universe.strokeCounter[level-1] < universe.Strokes){
-                                universe.strokeCounter[level-1] = universe.Strokes;
-                            }
+
+                        else
                             state = GameState.LevelComplete;
-                        }
                     }
                     else if (currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape))
                         state = GameState.Paused;
@@ -203,7 +210,8 @@ namespace GravityGolf
                     pauseMenu.Update(currentMouseState, previousMouseState);
                     if (pauseMenu.PlayClick)
                         state = GameState.Playing;
-                    else if (pauseMenu.MenuClick) {
+                    else if (pauseMenu.MenuClick)
+                    {
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Menu;
                     }
@@ -213,11 +221,6 @@ namespace GravityGolf
 
                 case GameState.LevelComplete:
                     levelComplete.Update(currentMouseState, previousMouseState);
-                    if (hiScores[level - 1] > universe.Strokes)
-                    {
-                        hiScores[level - 1] = universe.Strokes;
-                        gotHiScore[level - 1] = true;
-                    }
                     if (levelComplete.PlayClick)
                     {
                         universe.Clear();
@@ -235,8 +238,12 @@ namespace GravityGolf
                     gameWon.Update(currentMouseState, previousMouseState);
                     if (gameWon.MenuClick)
                     {
+                        for(int i = 0; i < currentScores.Length; i++)
+                        {
+                            currentScores[i] = int.MaxValue;
+                        }
+                        totalScore = 0;
                         state = GameState.Menu;
-                        //universe.ResetStrokeCounter();
                     }
                     else if (gameWon.ExitClick)
                         Exit();

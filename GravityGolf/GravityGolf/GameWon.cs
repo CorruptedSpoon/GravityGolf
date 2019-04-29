@@ -25,15 +25,22 @@ namespace GravityGolf
         private bool menuClick;
         private bool exitClick;
 
+        int[] scores;
+        bool[] gotHi;
+
         public bool MenuClick { get { return menuClick; } }
         public bool ExitClick { get { return exitClick; } }
 
         int totalStrokes = 0;
 
+
         public GameWon(ContentManager content)
         {
             gameWonOverlay = content.Load<Texture2D>("EndOverlay");
+            hiScoreBlank = content.Load<Texture2D>("HiScoreBlank");
             font = content.Load<SpriteFont>("font");
+
+            scores = new int[9];
 
             menuButton = new Button(new Rectangle(672, 500, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
             exitButton = new Button(new Rectangle(672, 668, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
@@ -41,10 +48,11 @@ namespace GravityGolf
 
         public void GetTotalStrokes(int[] strokes)
         {
-            for(int i = 0; i<9; i++)
+            for (int i = 0; i < 9; i++)
             {
-                if(strokes[i] != int.MaxValue)
+                if (strokes[i] != int.MaxValue)
                     totalStrokes += strokes[i];
+                scores[i] = strokes[i];
             }
         }
 
@@ -55,11 +63,14 @@ namespace GravityGolf
             for(int i = 0; i < 10; i++)
             {
                 sb.Draw(hiScoreBlank, new Rectangle(150 + i * 128, 300, 128, 128), Color.White);
+                if(i < 9)
+                    sb.DrawString(font, scores[i].ToString(), new Vector2(200 + i * 128, 325), Color.Black);
+                else
+                    sb.DrawString(font, totalStrokes.ToString(), new Vector2(175 + i * 128, 325), Color.Black);
             }
 
             menuButton.Draw(sb, currentState);
             exitButton.Draw(sb, currentState);
-            sb.DrawString(font, totalStrokes.ToString(), new Vector2(785, 270), Color.White);
         }
         public void Update(MouseState current, MouseState previous)
         {
