@@ -16,6 +16,7 @@ namespace GravityGolf
         MouseState previousState;
 
         Texture2D gameWonOverlay;
+        Texture2D hiScoreBlank;
 
         Button menuButton;
         Button exitButton;
@@ -28,7 +29,8 @@ namespace GravityGolf
 
         public GameWon(ContentManager content)
         {
-            gameWonOverlay = content.Load<Texture2D>("GameWon");
+            gameWonOverlay = content.Load<Texture2D>("EndOverlay");
+            hiScoreBlank = content.Load<Texture2D>("HiScoreBlank");
 
             menuButton = new Button(new Rectangle(672, 500, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
             exitButton = new Button(new Rectangle(672, 628, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
@@ -36,6 +38,11 @@ namespace GravityGolf
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(gameWonOverlay, new Rectangle(0, 0, 1600, 900), Color.White);
+
+            for(int i = 0; i < 10; i++)
+            {
+                sb.Draw(hiScoreBlank, new Rectangle(150 + i * 128, 300, 128, 128), Color.White);
+            }
 
             menuButton.Draw(sb, currentState);
             exitButton.Draw(sb, currentState);

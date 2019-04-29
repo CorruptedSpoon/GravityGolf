@@ -25,6 +25,8 @@ namespace GravityGolf
         SpriteBatch spriteBatch;
 
         int[] hiScores;
+        bool[] gotHiScore;
+        int[] currentScores;
 
         public GameState state;
         Universe universe;
@@ -73,6 +75,13 @@ namespace GravityGolf
 			state = GameState.Menu;
 
             hiScores = new int[9];
+            gotHiScore = new bool[9];
+            currentScores = new int[9];
+
+            for(int i = 0; i < 9; i++)
+            {
+                gotHiScore[i] = false;
+            }
             
             IsMouseVisible = true;
 
@@ -195,11 +204,15 @@ namespace GravityGolf
 
                 case GameState.LevelComplete:
                     levelComplete.Update(currentMouseState, previousMouseState);
+                    if (hiScores[level - 1] > universe.Strokes)
+                    {
+                        hiScores[level - 1] = universe.Strokes;
+                        gotHiScore[level - 1] = true;
+                    }
                     if (levelComplete.PlayClick)
                     {
                         universe.Clear();
-                        if (hiScores[level - 1] > universe.Strokes)
-                            hiScores[level - 1] = universe.Strokes;
+                        
                         level++;
                         universe.LoadLevel("Content\\levels\\level" + level + ".level");
                         state = GameState.Playing;
