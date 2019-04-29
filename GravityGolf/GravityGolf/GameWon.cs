@@ -17,6 +17,8 @@ namespace GravityGolf
 
         Texture2D gameWonOverlay;
         Texture2D hiScoreBlank;
+        Texture2D hiScoreGreen;
+
         private SpriteFont font;
 
         Button menuButton;
@@ -37,21 +39,26 @@ namespace GravityGolf
         public GameWon(ContentManager content)
         {
             gameWonOverlay = content.Load<Texture2D>("EndOverlay");
+            hiScoreGreen = content.Load<Texture2D>("HiScoreGreen");
             hiScoreBlank = content.Load<Texture2D>("HiScoreBlank");
             font = content.Load<SpriteFont>("font");
 
             scores = new int[9];
+            gotHi = new bool[9];
 
             menuButton = new Button(new Rectangle(672, 500, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
             exitButton = new Button(new Rectangle(672, 668, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
         }
 
-        public void GetTotalStrokes(int[] strokes)
+        public void GetTotalStrokes(int[] strokes, bool[] gotHi)
         {
             for (int i = 0; i < 9; i++)
             {
                 if (strokes[i] != int.MaxValue)
+                {
                     totalStrokes += strokes[i];
+                    this.gotHi[i] = gotHi[i];
+                }
                 scores[i] = strokes[i];
             }
         }
@@ -62,11 +69,21 @@ namespace GravityGolf
 
             for(int i = 0; i < 10; i++)
             {
-                sb.Draw(hiScoreBlank, new Rectangle(150 + i * 128, 300, 128, 128), Color.White);
                 if(i < 9)
+                {
+                    if (gotHi[i])
+                        sb.Draw(hiScoreGreen, new Rectangle(150 + i * 128, 300, 128, 128), Color.White);
+
+                    else
+                        sb.Draw(hiScoreBlank, new Rectangle(150 + i * 128, 300, 128, 128), Color.White);
+
                     sb.DrawString(font, scores[i].ToString(), new Vector2(200 + i * 128, 325), Color.Black);
+                }
                 else
+                {
+                    sb.Draw(hiScoreBlank, new Rectangle(150 + i * 128, 300, 128, 128), Color.White);
                     sb.DrawString(font, totalStrokes.ToString(), new Vector2(175 + i * 128, 325), Color.Black);
+                }
             }
 
             menuButton.Draw(sb, currentState);

@@ -161,7 +161,10 @@ namespace GravityGolf
                     else if (startMenu.Level)
                         state = GameState.LevelSelect;
                     else if ((currentState.IsKeyDown(Keys.Escape) && previousState.IsKeyUp(Keys.Escape)) || startMenu.Exit)
+                    {
+                        WriteHiScore();
                         Exit();
+                    }
 					break;
 
                 case GameState.LevelSelect:
@@ -195,7 +198,7 @@ namespace GravityGolf
                         }
                         if (level >= 9)
                         {
-                            gameWon.GetTotalStrokes(currentScores);
+                            gameWon.GetTotalStrokes(currentScores, gotHiScore);
                             state = GameState.GameWon;
                         }
 
@@ -216,7 +219,10 @@ namespace GravityGolf
                         state = GameState.Menu;
                     }
                     else if (pauseMenu.ExitClick)
-                        Exit();                   
+                    {
+                        WriteHiScore();
+                        Exit();
+                    }
 					break;
 
                 case GameState.LevelComplete:
@@ -241,12 +247,16 @@ namespace GravityGolf
                         for(int i = 0; i < currentScores.Length; i++)
                         {
                             currentScores[i] = int.MaxValue;
+                            gotHiScore[i] = false;
                         }
                         totalScore = 0;
                         state = GameState.Menu;
                     }
                     else if (gameWon.ExitClick)
+                    {
+                        WriteHiScore();
                         Exit();
+                    }
 					break;
 			}
 
@@ -291,6 +301,27 @@ namespace GravityGolf
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        void WriteHiScore()
+        {
+            FileStream outStream = null;
+            BinaryWriter writer = null;
+            try
+            {
+                File.Delete("hi.score");
+                outStream = File.OpenWrite("hi.score");
+                writer = new BinaryWriter(outStream);
+                foreach (int i in hiScores)
+                {
+                    writer.Write(i);
+                }
+                writer.Close();
+            }
+            catch
+            {
+                throw new System.Exception();
+            }
         }
     }
 }
