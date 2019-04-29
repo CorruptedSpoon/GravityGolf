@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace GravityGolf
 {
@@ -25,6 +26,9 @@ namespace GravityGolf
 
 		ButtonState oldState;
 
+        private float lastX;
+        private float lastY;
+
         private bool planetIntersect;
         
         private int strokes;
@@ -37,7 +41,7 @@ namespace GravityGolf
 
         private int levelNum;
 
-        //private Game1 game1;
+        private Stopwatch stopwatch;
 
         public int Strokes {
             get { return strokes; }
@@ -51,10 +55,13 @@ namespace GravityGolf
         {
 			click1 = null;
 			click2 = null;
+            lastX = 0f;
+            lastY = 0f;
             planetIntersect = false;
             this.graphics = graphics;
             this.content = content;
             font = this.content.Load<SpriteFont>("font");
+            stopwatch = new Stopwatch();
         }
 
         /// <summary>
@@ -129,9 +136,25 @@ namespace GravityGolf
             float yForZoom = ball.Y + Math.Sign(ball.Y - graphicsDevice.Viewport.Height / 2) * ball.Radius * 3;
 
             float scale = 1f;
-            if (xForZoom > graphicsDevice.Viewport.Width || xForZoom < 0 || yForZoom > graphicsDevice.Viewport.Height || yForZoom<0)
-                scale = Math.Min(graphicsDevice.Viewport.Width / (2*(xForZoom - graphicsDevice.Viewport.Width/2) * xMultiplier),
+            if (xForZoom > graphicsDevice.Viewport.Width || xForZoom < 0 || yForZoom > graphicsDevice.Viewport.Height || yForZoom < 0)
+            {
+                scale = Math.Min(graphicsDevice.Viewport.Width / (2 * (xForZoom - graphicsDevice.Viewport.Width / 2) * xMultiplier),
                     graphicsDevice.Viewport.Height / (2 * (yForZoom - graphicsDevice.Viewport.Height / 2) * yMultiplier));
+                if (!stopwatch.IsRunning)
+                {
+                    stopwatch.Start();
+                }
+                else if(stopwatch.ElapsedMilliseconds >= 10000)
+                {
+                    ball.Teleport((int)lastX, (int)lastY);
+                    strokes++;
+                }
+            }
+            else if (stopwatch.IsRunning)
+            {
+                stopwatch.Reset();
+            }
+                
 
             foreach (Planet planet in planets)
             {
@@ -159,6 +182,8 @@ namespace GravityGolf
             {
                 //check to see if the ball is experiencing collision w/ any of the planets
                 if (planet.IsInside(ball.Center - ball.Radius * planet.UnitNormalAt(ball.Center))) {
+                    lastX = ball.X;
+                    lastY = ball.Y;
                     planetIntersect = true;
                     touching = planet;
                     ball.Unclip(touching);
@@ -231,12 +256,18 @@ namespace GravityGolf
                 Stream inStream = File.OpenRead(level);
                 input = new BinaryReader(inStream);
 
+                int ballX = input.ReadInt32();
+                int ballY = input.ReadInt32();
+
                 //numbers for radius and mass here should be constant, numbers that I put should be changed
-                SetBall(new Ball(new Vector2(input.ReadInt32(), input.ReadInt32()),10,1,content.Load<Texture2D>("red")));
+                SetBall(new Ball(new Vector2(ballX, ballY),10,1,content.Load<Texture2D>("red")));
                 //test hole
                 SetHole(new Hole(new Vector2(input.ReadInt32(), input.ReadInt32()), 10, 10, content.Load<Texture2D>("hole"), Color.White, false));
 
                 int num = input.ReadInt32();
+
+                lastX = ballX;
+                lastY = ballY;
 
                 for(int x = 0; x < num; x++)
                 {
