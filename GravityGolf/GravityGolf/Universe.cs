@@ -28,13 +28,14 @@ namespace GravityGolf
         private bool planetIntersect;
         
         private int strokes;
+        private int totalStrokes = 0;
 
         private GraphicsDevice graphics;
 
         private ContentManager content;
         private SpriteFont font;
 
-        private List<int> strokeCounter = new List<int>();
+        public int[] strokeCounter = new int[10];
 
         private int levelNum;
 
@@ -43,6 +44,7 @@ namespace GravityGolf
         public int Strokes {
             get { return strokes; }
         }
+        
 
         /// <summary>
         /// Creates a new empty Universe
@@ -55,6 +57,10 @@ namespace GravityGolf
             this.graphics = graphics;
             this.content = content;
             font = this.content.Load<SpriteFont>("font");
+            for(int i = 0; i < 10; i++)
+            {
+                strokeCounter[i] = int.MaxValue;
+            }
         }
 
         /// <summary>
@@ -205,11 +211,6 @@ namespace GravityGolf
 			oldState = Mouse.GetState().LeftButton;
 
 			ball.Translate(); // we always do this or we get stuck.  Time cannot freeze, to stop just make Direction <0, 0>
-
-            if (hole.InGoal(ball))
-            {
-                
-            }
         }
 
         /// <summary>
@@ -342,6 +343,12 @@ namespace GravityGolf
             }
         }
 
-        
+        public void ResetStrokeCounter()
+        {
+            for(int i = 0; i < 9; i++)
+            {
+                strokeCounter[i] = int.MaxValue;
+            }
+        }
     }
 }

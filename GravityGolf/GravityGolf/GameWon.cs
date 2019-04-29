@@ -17,6 +17,7 @@ namespace GravityGolf
 
         Texture2D gameWonOverlay;
         Texture2D hiScoreBlank;
+        private SpriteFont font;
 
         Button menuButton;
         Button exitButton;
@@ -27,14 +28,26 @@ namespace GravityGolf
         public bool MenuClick { get { return menuClick; } }
         public bool ExitClick { get { return exitClick; } }
 
+        int totalStrokes = 0;
+
         public GameWon(ContentManager content)
         {
             gameWonOverlay = content.Load<Texture2D>("EndOverlay");
-            hiScoreBlank = content.Load<Texture2D>("HiScoreBlank");
+            font = content.Load<SpriteFont>("font");
 
             menuButton = new Button(new Rectangle(672, 500, 256, 128), content.Load<Texture2D>("ButtonMenu"), content.Load<Texture2D>("ButtonMenuOvr"));
-            exitButton = new Button(new Rectangle(672, 628, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
+            exitButton = new Button(new Rectangle(672, 668, 256, 128), content.Load<Texture2D>("ButtonExit"), content.Load<Texture2D>("ButtonExitOvr"));
         }
+
+        public void GetTotalStrokes(int[] strokes)
+        {
+            for(int i = 0; i<9; i++)
+            {
+                if(strokes[i] != int.MaxValue)
+                    totalStrokes += strokes[i];
+            }
+        }
+
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(gameWonOverlay, new Rectangle(0, 0, 1600, 900), Color.White);
@@ -46,6 +59,7 @@ namespace GravityGolf
 
             menuButton.Draw(sb, currentState);
             exitButton.Draw(sb, currentState);
+            sb.DrawString(font, totalStrokes.ToString(), new Vector2(785, 270), Color.White);
         }
         public void Update(MouseState current, MouseState previous)
         {
